@@ -5,13 +5,10 @@ Authentication endpoints for Module 1
 
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timedelta
-import os
 
 from database import get_db, init_db, User, PasswordResetCode
 from auth import (
@@ -28,12 +25,6 @@ from auth import (
 
 # Initialize FastAPI app
 app = FastAPI(title="NutriTracker.ai API", version="1.0")
-
-# Mount static files (CSS, JS, assets)
-frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
-app.mount("/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css")
-app.mount("/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js")
-app.mount("/assets", StaticFiles(directory=os.path.join(frontend_path, "assets")), name="assets")
 
 # CORS configuration
 app.add_middleware(
@@ -320,26 +311,19 @@ def reset_password(request: ResetPasswordRequest, db: Session = Depends(get_db))
 
 
 # ============================================
-# Serve Frontend - Root endpoint
+# Health check endpoint
 # ============================================
 @app.get("/")
 def root():
-    """Serve the main index.html page"""
-    index_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "index.html")
-    return FileResponse(index_path)
-
-
-# ============================================
-# API Health check endpoint
-# ============================================
-@app.get("/api/health")
-def health_check():
     return {
         "app": "NutriTracker.ai API",
         "status": "running",
         "version": "1.0",
         "module": "Authentication"
+        
     }
+
+
 # ============================================
 # Run the application
 # ============================================

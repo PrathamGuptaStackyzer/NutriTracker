@@ -110,7 +110,7 @@ async function handleSignup() {
     const password = document.getElementById('signupPassword').value;
     
     // Basic validation
-    
+
     if (!email || !password) {
         showAlert('Email and password are required', 'danger');
         return;
@@ -377,6 +377,7 @@ async function resendCode() {
 // ============================================
 // Resend Timer (60 seconds cooldown)
 // ============================================
+
 function startResendTimer() {
     let seconds = 60;
     const timerElement = document.getElementById('resendTimer');
@@ -428,6 +429,7 @@ function showAlert(message, type = 'info') {
 // ============================================
 // Check if User is Already Logged In
 // ============================================
+
 window.addEventListener('DOMContentLoaded', () => {
     // Check if JWT token exists
     const token = localStorage.getItem('access_token');
