@@ -1,0 +1,388 @@
+/*
+ * NutriTracker AI - Authentication Page Styles
+ * Design: Clean, modern with #2E7D32 green theme
+ */
+
+/* ============================================ */
+/* Global Styles */
+/* ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #F8FFF9; /* Light green-tinted background */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ============================================ */
+/* Main Container */
+/* ============================================ */
+.container {
+    max-width: 500px;
+    width: 100%;
+}
+
+.auth-wrapper {
+    text-align: center;
+}
+
+/* ============================================ */
+/* Logo Section */
+/* ============================================ */
+.logo-section {
+    margin-bottom: 30px;
+}
+
+.logo-icon {
+    width: 80px;
+    height: 80px;
+    background: #2E7D32; /* Primary green */
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+}
+
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2E7D32;
+    margin-bottom: 5px;
+}
+
+.ai-text {
+    color: #7B68EE; /* Purple accent for "AI" */
+}
+
+.tagline {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 400;
+}
+
+/* ============================================ */
+/* Authentication Card */
+/* ============================================ */
+.auth-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* ============================================ */
+/* Tab Navigation (Login / Sign Up) */
+/* ============================================ */
+.tab-navigation {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    background: #F5F5F5;
+    border-radius: 12px;
+    padding: 6px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: white;
+    color: #2E7D32;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tab-btn:hover:not(.active) {
+    color: #2E7D32;
+}
+
+/* ============================================ */
+/* Form Elements */
+/* ============================================ */
+.auth-form {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    background: #FAFAFA;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #2E7D32;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-input::placeholder {
+    color: #999;
+}
+
+/* Small helper text under inputs */
+.form-text {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* ============================================ */
+/* Checkbox (Remember Me) */
+/* ============================================ */
+.form-check {
+    margin-bottom: 20px;
+}
+
+.form-check-input {
+    cursor: pointer;
+    border-color: #2E7D32;
+}
+
+.form-check-input:checked {
+    background-color: #2E7D32;
+    border-color: #2E7D32;
+}
+
+.form-check-label {
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* ============================================ */
+/* Authentication Button (Login / Sign Up) */
+/* ============================================ */
+.auth-btn {
+    width: 100%;
+    padding: 14px 20px;
+    background: #2E7D32; /* Primary green */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.auth-btn:hover {
+    background: #256428; /* Darker green on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-btn:disabled {
+    background: #9E9E9E;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============================================ */
+/* Links (Forgot Password) */
+/* ============================================ */
+.forgot-link {
+    color: #2E7D32;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: #256428;
+    text-decoration: underline;
+}
+
+/* ============================================ */
+/* Feature Icons Section (Bottom) */
+/* ============================================ */
+.features-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.feature-icon {
+    font-size: 1.2rem;
+}
+
+.feature-text {
+    font-weight: 500;
+}
+
+/* ============================================ */
+/* Modal Customization */
+/* ============================================ */
+.modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid #F0F0F0;
+    padding: 20px 24px;
+}
+
+.modal-title {
+    font-weight: 600;
+    color: #2E7D32;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    border-top: 1px solid #F0F0F0;
+    padding: 16px 24px;
+}
+
+.modal-footer .btn-secondary {
+    background: #E0E0E0;
+    border: none;
+    color: #666;
+    padding: 10px 24px;
+    border-radius: 8px;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: #D0D0D0;
+}
+
+.modal-footer .auth-btn {
+    padding: 10px 24px;
+    width: auto;
+}
+
+/* ============================================ */
+/* Responsive Design */
+/* ============================================ */
+@media (max-width: 576px) {
+    .auth-card {
+        padding: 30px 20px;
+    }
+    
+    .app-title {
+        font-size: 2rem;
+    }
+    
+    .features-section {
+        gap: 15px;
+    }
+    
+    .feature-item {
+        font-size: 0.85rem;
+    }
+}
+
+/* ============================================ */
+/* Loading State (Optional - for future use) */
+/* ============================================ */
+.auth-btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.auth-btn.loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid white;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================ */
+/* Alert/Toast Messages (for validation errors) */
+/* ============================================ */
+.alert {
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.alert-danger {
+    background: #FFF3F3;
+    color: #D32F2F;
+    border: 1px solid #FFCDD2;
+}
+
+.alert-success {
+    background: #F1F8F4;
+    color: #2E7D32;
+    border: 1px solid #C8E6C9;
+}
+
+.alert-info {
+    background: #E3F2FD;
+    color: #1976D2;
+    border: 1px solid #BBDEFB;
+}
