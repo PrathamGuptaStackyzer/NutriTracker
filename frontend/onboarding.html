@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - NutriTracker.ai</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/onboarding.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- ============================================ -->
+    <!-- Navigation Progress Bar -->
+    <!-- ============================================ -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="row align-items-center py-3">
+                <div class="col-auto">
+                    <h5 class="mb-0 text-white">NutriTracker.ai</h5>
+                </div>
+                <div class="col">
+                    <div class="progress" style="height: 8px;">
+                        <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 33%"></div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <span id="progressText" class="text-white">Step 1 of 3</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- Main Onboarding Container -->
+    <!-- ============================================ -->
+    <div class="container onboarding-container">
+        
+        <!-- ============================================ -->
+        <!-- SLIDE 1: Goal Selection -->
+        <!-- ============================================ -->
+        <div id="slide1" class="slide active">
+            <div class="slide-content">
+                <div class="text-center mb-4">
+                    <i class="fas fa-bullseye goal-icon"></i>
+                    <h2 class="slide-title">What's Your Goal?</h2>
+                    <p class="slide-subtitle">Let's personalize your nutrition journey</p>
+                </div>
+
+                <div class="row g-3">
+                    <!-- Weight Loss Card -->
+                    <div class="col-md-4">
+                        <div class="goal-card" data-goal="loss" onclick="selectGoal('loss')">
+                            <div class="goal-card-icon">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <h4>Weight Loss</h4>
+                            <p class="text-muted">Lose weight safely and sustainably</p>
+                            <div class="goal-badge">-500 cal/day</div>
+                        </div>
+                    </div>
+
+                    <!-- Maintain Weight Card -->
+                    <div class="col-md-4">
+                        <div class="goal-card" data-goal="maintain" onclick="selectGoal('maintain')">
+                            <div class="goal-card-icon">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <h4>Maintain Weight</h4>
+                            <p class="text-muted">Stay at your current weight</p>
+                            <div class="goal-badge">Balanced</div>
+                        </div>
+                    </div>
+
+                    <!-- Weight Gain Card -->
+                    <div class="col-md-4">
+                        <div class="goal-card" data-goal="gain" onclick="selectGoal('gain')">
+                            <div class="goal-card-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <h4>Weight Gain</h4>
+                            <p class="text-muted">Build muscle and gain weight</p>
+                            <div class="goal-badge">+500 cal/day</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="slide-footer">
+                    <button class="btn btn-outline-secondary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Login
+                    </button>
+                    <button id="slide1Next" class="btn btn-success" disabled onclick="nextSlide()">
+                        Next<i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 2: Metrics Input -->
+        <!-- ============================================ -->
+        <div id="slide2" class="slide">
+            <div class="slide-content">
+                <div class="text-center mb-4">
+                    <i class="fas fa-chart-line goal-icon"></i>
+                    <h2 class="slide-title">Tell Us About Yourself</h2>
+                    <p class="slide-subtitle">We'll calculate your personalized plan</p>
+                </div>
+
+                <form id="metricsForm" class="metrics-form">
+                    <div class="row g-4">
+                        <!-- Gender -->
+                        <div class="col-md-6">
+                            <label class="form-label">Gender</label>
+                            <select class="form-select" id="gender" required>
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Age -->
+                        <div class="col-md-6">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" id="age" placeholder="e.g., 25" min="13" max="120" required>
+                            <small class="form-text text-muted">Must be 13 or older</small>
+                        </div>
+
+                        <!-- Height -->
+                        <div class="col-md-6">
+                            <label class="form-label">Height (cm)</label>
+                            <input type="number" class="form-control" id="height" placeholder="e.g., 170" min="100" max="250" step="0.1" required>
+                            <small class="form-text text-muted">100-250 cm</small>
+                        </div>
+
+                        <!-- Weight -->
+                        <div class="col-md-6">
+                            <label class="form-label">Weight (kg)</label>
+                            <input type="number" class="form-control" id="weight" placeholder="e.g., 70" min="30" max="300" step="0.1" required>
+                            <small class="form-text text-muted">30-300 kg</small>
+                        </div>
+
+                        <!-- Activity Level -->
+                        <div class="col-12">
+                            <label class="form-label">Activity Level</label>
+                            <select class="form-select" id="activityLevel" required>
+                                <option value="">Select your activity level</option>
+                                <option value="sedentary">Sedentary (Little or no exercise)</option>
+                                <option value="lightly_active">Lightly Active (Exercise 1-3 days/week)</option>
+                                <option value="moderately_active">Moderately Active (Exercise 3-5 days/week)</option>
+                                <option value="very_active">Very Active (Exercise 6-7 days/week)</option>
+                                <option value="super_active">Super Active (Intense exercise daily)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="metricsError" class="alert alert-danger mt-3" style="display: none;"></div>
+                </form>
+
+                <!-- Navigation Buttons -->
+                <div class="slide-footer">
+                    <button class="btn btn-outline-secondary" onclick="previousSlide()">
+                        <i class="fas fa-arrow-left me-2"></i>Back
+                    </button>
+                    <button class="btn btn-success" onclick="calculateProfile()">
+                        Calculate My Plan<i class="fas fa-calculator ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 3: Results Display -->
+        <!-- ============================================ -->
+        <div id="slide3" class="slide">
+            <div class="slide-content">
+                <div class="text-center mb-4">
+                    <i class="fas fa-check-circle goal-icon text-success"></i>
+                    <h2 class="slide-title">Your Personalized Plan</h2>
+                    <p class="slide-subtitle">Here's what we calculated for you</p>
+                </div>
+
+                <!-- Results Grid -->
+                <div class="row g-4 mb-4">
+                    <!-- BMI Card -->
+                    <div class="col-md-6">
+                        <div class="result-card">
+                            <div class="result-label">Body Mass Index (BMI)</div>
+                            <div class="result-value" id="bmiValue">--</div>
+                            <div class="result-badge" id="bmiCategory">--</div>
+                            <small class="text-muted" id="idealWeight">Ideal: --</small>
+                        </div>
+                    </div>
+
+                    <!-- Daily Calories Card -->
+                    <div class="col-md-6">
+                        <div class="result-card">
+                            <div class="result-label">Daily Calorie Goal</div>
+                            <div class="result-value" id="calorieGoal">--</div>
+                            <div class="result-description" id="goalDescription">--</div>
+                            <small class="text-muted">Maintenance: <span id="maintenanceCalories">--</span> cal</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Profile Summary -->
+                <div class="profile-summary">
+                    <h5 class="mb-3"><i class="fas fa-user me-2"></i>Your Profile</h5>
+                    <div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <div class="profile-item">
+                                <span class="profile-label">Goal</span>
+                                <span class="profile-value" id="summaryGoal">--</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="profile-item">
+                                <span class="profile-label">Gender</span>
+                                <span class="profile-value" id="summaryGender">--</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="profile-item">
+                                <span class="profile-label">Age</span>
+                                <span class="profile-value" id="summaryAge">--</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="profile-item">
+                                <span class="profile-label">Activity</span>
+                                <span class="profile-value" id="summaryActivity">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="alert alert-success text-center mt-4">
+                    <i class="fas fa-thumbs-up me-2"></i>
+                    <strong>Setup Complete!</strong> You're all set to start tracking your nutrition.
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="slide-footer">
+                    <button class="btn btn-outline-secondary" onclick="previousSlide()">
+                        <i class="fas fa-arrow-left me-2"></i>Back
+                    </button>
+                    <button class="btn btn-success" onclick="goToDashboard()">
+                        Go to Dashboard<i class="fas fa-home ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- Loading Overlay -->
+    <!-- ============================================ -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-white">Calculating your plan...</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/onboarding.js"></script>
+</body>
+</html>
