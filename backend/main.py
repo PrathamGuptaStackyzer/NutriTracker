@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from database import init_db
-from routers import auth_routes, onboarding_routes
+from routers import auth_routes, onboarding_routes, profile_routes
 
 # ============================================
 # FastAPI Application Setup
@@ -53,6 +53,9 @@ app.include_router(auth_routes.router)
 # Module 2: Onboarding
 app.include_router(onboarding_routes.router)
 
+# Module 7: User Profile
+app.include_router(profile_routes.router)
+
 # ============================================
 # Database Initialization
 # ============================================
@@ -62,17 +65,39 @@ def startup_event():
     """Initialize database tables on application startup"""
     init_db()
     print("🚀 NutriTracker.ai API is running!")
-    print("📦 Loaded modules: Authentication, Onboarding")
+    print("📦 Loaded modules: Authentication, Onboarding, Profile")
 
 
 # ============================================
 # Frontend Routes
 # ============================================
 @app.get("/")
+@app.get("/index.html")
 def serve_index():
     """Serve the main index.html landing page"""
     index_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "index.html")
     return FileResponse(index_path)
+
+@app.get("/onboarding")
+@app.get("/onboarding.html")
+def serve_onboarding():
+    """Serve the onboarding.html page"""
+    onboarding_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "onboarding.html")
+    return FileResponse(onboarding_path)
+
+@app.get("/dashboard")
+@app.get("/dashboard.html")
+def serve_dashboard():
+    """Serve the dashboard.html page"""
+    dashboard_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "dashboard.html")
+    return FileResponse(dashboard_path)
+
+@app.get("/profile")
+@app.get("/profile.html")
+def serve_profile():
+    """Serve the profile.html page"""
+    profile_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "profile.html")
+    return FileResponse(profile_path)
 
 # ============================================
 # Health Check
@@ -85,7 +110,7 @@ def health_check():
         "app": "NutriTracker.ai API",
         "status": "running",
         "version": "1.0",
-        "modules": ["Authentication", "Onboarding"]
+        "modules": ["Authentication", "Onboarding", "Profile"]
     }
 
 # ============================================
@@ -94,4 +119,9 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
+    print("\n" + "="*50)
+    print("🚀 NutriTracker.ai Server Starting...")
+    print("📍 Frontend URL: http://localhost:8000")
+    print("📍 API Docs: http://localhost:8000/docs")
+    print("="*50 + "\n")
     uvicorn.run(app, host="0.0.0.0", port=8000)

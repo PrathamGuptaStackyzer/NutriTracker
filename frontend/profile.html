@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - NutriTracker.ai</title>
+    
+    <!-- Bootstrap 5 CSS for responsive layout and components -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons (user, email, weight, etc.) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Poppins for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS (we'll create this next) -->
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    
+    <!-- ============================================ -->
+    <!-- TOP NAVIGATION BAR -->
+    <!-- Fixed navbar with app branding and logout -->
+    <!-- ============================================ -->
+    <nav class="navbar navbar-dark fixed-top">
+        <div class="container-fluid px-4">
+            <!-- App Logo and Name -->
+            <span class="navbar-brand mb-0 h1">
+                <i class="fas fa-leaf me-2"></i>NutriTracker.ai
+            </span>
+            
+            <!-- Logout Button -->
+            <button class="btn btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- MAIN CONTAINER (Sidebar + Content) -->
+    <!-- Uses flexbox for side-by-side layout -->
+    <!-- ============================================ -->
+    <div class="main-container">
+        
+        <!-- ============================================ -->
+        <!-- LEFT SIDEBAR NAVIGATION -->
+        <!-- Fixed sidebar with navigation links -->
+        <!-- ============================================ -->
+        <div class="sidebar">
+            <!-- Overview Link -->
+            <a href="dashboard.html" class="sidebar-item">
+                <i class="fas fa-home"></i>
+                <span>Overview</span>
+            </a>
+            
+            <!-- Add Meal Link -->
+            <a href="dashboard.html" class="sidebar-item">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Meal</span>
+            </a>
+            
+            <!-- History Link -->
+            <a href="dashboard.html" class="sidebar-item">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </a>
+            
+            <!-- Profile Link (Active - Current Page) -->
+            <a href="profile.html" class="sidebar-item active">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- RIGHT CONTENT AREA -->
+        <!-- Main content with profile information -->
+        <!-- ============================================ -->
+        <div class="content-area">
+            
+            <!-- ============================================ -->
+            <!-- PROFILE HEADER SECTION -->
+            <!-- Shows avatar, name, email, badges -->
+            <!-- ============================================ -->
+            <div class="profile-header">
+                <div class="d-flex align-items-center">
+                    <!-- Left Side: Avatar + Info -->
+                    <div class="d-flex align-items-center flex-grow-1">
+                        <!-- Avatar Circle with Gradient -->
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        
+                        <!-- User Info -->
+                        <div class="ms-3">
+                            <!-- Name (will be populated from API) -->
+                            <h3 class="profile-name mb-1" id="headerName">John Doe</h3>
+                            
+                            <!-- Email (will be populated from API) -->
+                            <p class="profile-email mb-2" id="headerEmail">john.doe@example.com</p>
+                            
+                            <!-- Badges Row -->
+                            <div class="d-flex gap-2">
+                                <!-- Streak Badge (future feature) -->
+                                <span class="badge-streak">
+                                    <i class="fas fa-fire me-1"></i>7 day streak 🔥
+                                </span>
+                                
+                                <!-- Pro Member Badge (future feature) -->
+                                <span class="badge-pro">
+                                    Pro Member
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Side: Edit Profile Button -->
+                    <button class="btn btn-edit-profile" onclick="enableEditMode()">
+                        Edit Profile
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- SUBTITLE -->
+            <!-- Explains what this page does -->
+            <!-- ============================================ -->
+            <p class="page-subtitle">Manage your account and preferences</p>
+
+            <!-- ============================================ -->
+            <!-- TAB NAVIGATION -->
+            <!-- 3 tabs: Personal, Goals, Settings -->
+            <!-- ============================================ -->
+            <div class="tab-navigation">
+                <!-- Personal Tab (Default Active) -->
+                <button class="tab-btn active" onclick="switchTab('personal')" id="personalTab">
+                    Personal
+                </button>
+                
+                <!-- Goals Tab -->
+                <button class="tab-btn" onclick="switchTab('goals')" id="goalsTab">
+                    Goals
+                </button>
+                
+                <!-- Settings Tab -->
+                <button class="tab-btn" onclick="switchTab('settings')" id="settingsTab">
+                    Settings
+                </button>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- TAB CONTENT CONTAINER -->
+            <!-- Each tab's content is shown/hidden via JS -->
+            <!-- ============================================ -->
+            <div class="tab-content-container">
+                
+                <!-- ============================================ -->
+                <!-- TAB 1: PERSONAL INFORMATION -->
+                <!-- Edit name, age, height, weight, view stats -->
+                <!-- ============================================ -->
+                <div class="tab-content active" id="personalContent">
+                    
+                    <!-- Section Title -->
+                    <h2 class="section-title">Personal Information</h2>
+                    
+                    <!-- Personal Info Form -->
+                    <form id="personalForm" class="profile-form">
+                        <div class="row">
+                            <!-- Full Name Input -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Full Name</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-user input-icon"></i>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="fullName" 
+                                        placeholder="John Doe"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                            
+                            <!-- Email Input (Read-Only) -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-envelope input-icon"></i>
+                                    <input 
+                                        type="email" 
+                                        class="form-control" 
+                                        id="email" 
+                                        placeholder="john.doe@example.com"
+                                        readonly
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Age Input -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Age</label>
+                                <input 
+                                    type="number" 
+                                    class="form-control" 
+                                    id="age" 
+                                    placeholder="28"
+                                    min="10" 
+                                    max="120"
+                                    required
+                                >
+                            </div>
+                            
+                            <!-- Height Input -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Height (cm)</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-ruler-vertical input-icon"></i>
+                                    <input 
+                                        type="number" 
+                                        class="form-control" 
+                                        id="height" 
+                                        placeholder="175"
+                                        min="50" 
+                                        max="300"
+                                        step="0.1"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                            
+                            <!-- Weight Input -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Weight (kg)</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-weight input-icon"></i>
+                                    <input 
+                                        type="number" 
+                                        class="form-control" 
+                                        id="weight" 
+                                        placeholder="72.5"
+                                        min="20" 
+                                        max="500"
+                                        step="0.1"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Save Changes Button -->
+                        <button type="submit" class="btn btn-save">
+                            <i class="fas fa-check me-2"></i>Save Changes
+                        </button>
+                    </form>
+
+                    <!-- ============================================ -->
+                    <!-- CURRENT STATS SECTION -->
+                    <!-- Shows BMI, Daily Calories, Weight Change -->
+                    <!-- ============================================ -->
+                    <h2 class="section-title mt-5">Current Stats</h2>
+                    
+                    <div class="row">
+                        <!-- BMI Card (Green) -->
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card stat-card-green">
+                                <div class="stat-label">BMI</div>
+                                <div class="stat-value" id="bmiValue">23.7</div>
+                                <div class="stat-sublabel" id="bmiCategory">Normal range</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Daily Calories Card (Blue) -->
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card stat-card-blue">
+                                <div class="stat-label">Daily Calories</div>
+                                <div class="stat-value" id="caloriesValue">2,000</div>
+                                <div class="stat-sublabel">kcal/day</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Weight Change Card (Purple) -->
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card stat-card-purple">
+                                <div class="stat-label">Weight Change</div>
+                                <div class="stat-value" id="weightChangeValue">-2.3 kg</div>
+                                <div class="stat-sublabel">Last 30 days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- TAB 2: GOALS -->
+                <!-- Edit fitness goals and activity level -->
+                <!-- ============================================ -->
+                <div class="tab-content" id="goalsContent">
+                    
+                    <!-- Section Title -->
+                    <h2 class="section-title">Goals & Activity</h2>
+                    
+                    <!-- Current Goal Display Card -->
+                    <div class="goal-display-card">
+                        <div class="d-flex align-items-center">
+                            <div class="goal-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="goal-label">Current Goal</div>
+                                <div class="goal-value" id="currentGoalDisplay">Weight Loss</div>
+                            </div>
+                            <button class="btn btn-change-goal" onclick="showGoalSelector()">
+                                Change Goal
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Goals Form -->
+                    <form id="goalsForm" class="profile-form mt-4">
+                        
+                        <!-- Goal Selection (Hidden by default, shown when "Change Goal" clicked) -->
+                        <div id="goalSelector" style="display: none;">
+                            <label class="form-label">Select Your Goal</label>
+                            <div class="goal-options mb-4">
+                                <div class="goal-option" data-goal="loss">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Weight Loss</span>
+                                </div>
+                                <div class="goal-option" data-goal="maintain">
+                                    <i class="fas fa-equals"></i>
+                                    <span>Maintain</span>
+                                </div>
+                                <div class="goal-option" data-goal="gain">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Weight Gain</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Target Weight Input -->
+                        <div class="mb-4">
+                            <label class="form-label">Target Weight (kg)</label>
+                            <input 
+                                type="number" 
+                                class="form-control" 
+                                id="targetWeight" 
+                                placeholder="68"
+                                min="20" 
+                                max="500"
+                                step="0.1"
+                            >
+                            <!-- Progress Text -->
+                            <small class="form-text text-muted" id="weightProgress">
+                                Current: 72.5 kg • Target: 68 kg • Remaining: 4.5 kg
+                            </small>
+                        </div>
+
+                        <!-- Weekly Weight Change Input -->
+                        <div class="mb-4">
+                            <label class="form-label">Weekly Weight Change (kg)</label>
+                            <input 
+                                type="number" 
+                                class="form-control" 
+                                id="weeklyChange" 
+                                placeholder="-0.5"
+                                step="0.1"
+                            >
+                            <small class="form-text text-muted">
+                                Recommended: -0.5 to -1.0 kg per week for healthy weight loss
+                            </small>
+                        </div>
+
+                        <!-- Activity Level Selection -->
+                        <label class="form-label mb-3">Activity Level</label>
+                        <div class="activity-levels">
+                            <!-- Sedentary -->
+                            <div class="activity-card" data-activity="sedentary">
+                                <div class="activity-title">Sedentary</div>
+                                <div class="activity-desc">Little to no exercise</div>
+                            </div>
+                            
+                            <!-- Lightly Active -->
+                            <div class="activity-card" data-activity="lightly_active">
+                                <div class="activity-title">Lightly Active</div>
+                                <div class="activity-desc">Exercise 1-3 days/week</div>
+                            </div>
+                            
+                            <!-- Moderately Active -->
+                            <div class="activity-card" data-activity="moderately_active">
+                                <div class="activity-title">Moderately Active</div>
+                                <div class="activity-desc">Exercise 3-5 days/week</div>
+                            </div>
+                            
+                            <!-- Very Active -->
+                            <div class="activity-card" data-activity="very_active">
+                                <div class="activity-title">Very Active</div>
+                                <div class="activity-desc">Exercise 6-7 days/week</div>
+                            </div>
+                        </div>
+
+                        <!-- Update Goals Button -->
+                        <button type="submit" class="btn btn-save mt-4">
+                            <i class="fas fa-check me-2"></i>Update Goals
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- TAB 3: SETTINGS -->
+                <!-- Dark mode, notifications, privacy (future) -->
+                <!-- ============================================ -->
+                <div class="tab-content" id="settingsContent">
+                    
+                    <!-- Section Title -->
+                    <h2 class="section-title">Settings</h2>
+                    
+                    <!-- Coming Soon Message -->
+                    <div class="coming-soon-card">
+                        <i class="fas fa-cog fa-3x mb-3"></i>
+                        <h4>Settings Coming Soon</h4>
+                        <p>Dark mode, notifications, and privacy settings will be available in the next update.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript (we'll create this next) -->
+    <script src="js/profile.js"></script>
+
+</body>
+</html>

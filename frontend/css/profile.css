@@ -1,0 +1,729 @@
+/**
+ * NutriTracker.ai - Profile Page Styles
+ * Module 7: User Profile & Settings
+ * 
+ * This CSS file styles the complete profile page with:
+ * - Gradient avatar
+ * - Tab navigation
+ * - Form inputs with icons
+ * - Stats cards (green, blue, purple)
+ * - Activity level selector cards
+ * - Responsive layout
+ */
+
+/* ============================================ */
+/* CSS VARIABLES (Color Palette) */
+/* ============================================ */
+:root {
+    /* Primary Brand Colors */
+    --primary-green: #2E7D32;
+    --primary-green-dark: #1B5E20;
+    --primary-green-light: #4CAF50;
+    
+    /* Background Colors */
+    --bg-light: #f5f6fa;
+    --bg-white: #ffffff;
+    
+    /* Text Colors */
+    --text-dark: #2c3e50;
+    --text-muted: #6c757d;
+    --text-light: #95a5a6;
+    
+    /* Stat Card Colors */
+    --stat-green-bg: #E8F5E9;
+    --stat-green-text: #2E7D32;
+    --stat-blue-bg: #E3F2FD;
+    --stat-blue-text: #1976D2;
+    --stat-purple-bg: #F3E5F5;
+    --stat-purple-text: #7B1FA2;
+    
+    /* Badge Colors */
+    --badge-streak-bg: #E8F5E9;
+    --badge-streak-text: #2E7D32;
+    --badge-pro-bg: #E3F2FD;
+    --badge-pro-text: #1976D2;
+    
+    /* Layout Dimensions */
+    --sidebar-width: 250px;
+    --navbar-height: 60px;
+    
+    /* Spacing */
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}
+
+/* ============================================ */
+/* GLOBAL RESETS */
+/* ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================ */
+/* TOP NAVBAR */
+/* Fixed navigation bar at the top */
+/* ============================================ */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--navbar-height);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+/* Logout Button in Navbar */
+.btn-logout {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* ============================================ */
+/* MAIN LAYOUT CONTAINER */
+/* Flexbox layout: Sidebar + Content */
+/* ============================================ */
+.main-container {
+    display: flex;
+    margin-top: var(--navbar-height);
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+/* ============================================ */
+/* LEFT SIDEBAR */
+/* Fixed sidebar navigation */
+/* ============================================ */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-white);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    padding: 20px 0;
+    position: fixed;
+    height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+}
+
+/* Individual Sidebar Item */
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+}
+
+/* Icon in Sidebar */
+.sidebar-item i {
+    width: 25px;
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+/* Hover Effect */
+.sidebar-item:hover {
+    background: #f8f9fa;
+    color: var(--primary-green);
+    border-left-color: var(--primary-green);
+}
+
+/* Active (Current Page) State */
+.sidebar-item.active {
+    background: var(--stat-green-bg);
+    color: var(--primary-green);
+    border-left-color: var(--primary-green);
+    font-weight: 600;
+}
+
+/* ============================================ */
+/* CONTENT AREA */
+/* Main content area (right side) */
+/* ============================================ */
+.content-area {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: var(--spacing-xl);
+    max-width: 1200px;
+}
+
+/* ============================================ */
+/* PROFILE HEADER */
+/* Avatar, name, email, badges section */
+/* ============================================ */
+.profile-header {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Avatar Circle with Gradient */
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /* Gradient from teal to purple (like screenshot) */
+    background: linear-gradient(135deg, #00BCD4 0%, #9C27B0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
+}
+
+/* User Name */
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+/* User Email */
+.profile-email {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Streak Badge (Green) */
+.badge-streak {
+    display: inline-block;
+    background: var(--badge-streak-bg);
+    color: var(--badge-streak-text);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Pro Member Badge (Blue) */
+.badge-pro {
+    display: inline-block;
+    background: var(--badge-pro-bg);
+    color: var(--badge-pro-text);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Edit Profile Button */
+.btn-edit-profile {
+    background: var(--bg-white);
+    color: var(--text-dark);
+    border: 1px solid #dee2e6;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-edit-profile:hover {
+    background: #f8f9fa;
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+}
+
+/* ============================================ */
+/* PAGE SUBTITLE */
+/* Descriptive text below header */
+/* ============================================ */
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================ */
+/* TAB NAVIGATION */
+/* Personal | Goals | Settings tabs */
+/* ============================================ */
+.tab-navigation {
+    display: flex;
+    gap: 10px;
+    background: var(--bg-white);
+    padding: 8px;
+    border-radius: 12px;
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Individual Tab Button */
+.tab-btn {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* Tab Hover Effect */
+.tab-btn:hover {
+    background: #f8f9fa;
+    color: var(--text-dark);
+}
+
+/* Active Tab State */
+.tab-btn.active {
+    background: var(--stat-green-bg);
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+/* ============================================ */
+/* TAB CONTENT CONTAINER */
+/* Holds all tab content sections */
+/* ============================================ */
+.tab-content-container {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Individual Tab Content (Hidden by Default) */
+.tab-content {
+    display: none;
+}
+
+/* Active Tab Content (Visible) */
+.tab-content.active {
+    display: block;
+}
+
+/* ============================================ */
+/* SECTION TITLES */
+/* Headings within tabs */
+/* ============================================ */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================ */
+/* FORM STYLING */
+/* Input fields, labels, buttons */
+/* ============================================ */
+.profile-form {
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Form Labels */
+.form-label {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Form Input Fields */
+.form-control {
+    padding: 12px 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+/* Input Focus State */
+.form-control:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.15);
+    outline: none;
+}
+
+/* Input with Icon Container */
+.input-with-icon {
+    position: relative;
+}
+
+/* Icon Inside Input */
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+/* Input Field with Icon (Add Left Padding) */
+.input-with-icon .form-control {
+    padding-left: 45px;
+}
+
+/* Read-Only Input (Email) */
+.form-control[readonly] {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+/* Small Helper Text */
+.form-text {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Save Button */
+.btn-save {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-save:hover {
+    background: var(--primary-green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* ============================================ */
+/* STATS CARDS */
+/* BMI, Daily Calories, Weight Change cards */
+/* ============================================ */
+.stat-card {
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+/* Stat Label (Top Text) */
+.stat-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.8;
+}
+
+/* Stat Value (Large Number) */
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Stat Sublabel (Bottom Text) */
+.stat-sublabel {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+/* Green Card (BMI) */
+.stat-card-green {
+    background: var(--stat-green-bg);
+    color: var(--stat-green-text);
+}
+
+.stat-card-green:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.2);
+}
+
+/* Blue Card (Daily Calories) */
+.stat-card-blue {
+    background: var(--stat-blue-bg);
+    color: var(--stat-blue-text);
+}
+
+.stat-card-blue:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(25, 118, 210, 0.2);
+}
+
+/* Purple Card (Weight Change) */
+.stat-card-purple {
+    background: var(--stat-purple-bg);
+    color: var(--stat-purple-text);
+}
+
+.stat-card-purple:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(123, 31, 162, 0.2);
+}
+
+/* ============================================ */
+/* GOAL DISPLAY CARD */
+/* Shows current goal with change button */
+/* ============================================ */
+.goal-display-card {
+    background: var(--stat-green-bg);
+    border-radius: 12px;
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Goal Icon Circle */
+.goal-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-green);
+    font-size: 24px;
+    margin-right: var(--spacing-md);
+}
+
+/* Goal Label */
+.goal-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+/* Goal Value */
+.goal-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Change Goal Button */
+.btn-change-goal {
+    background: white;
+    color: var(--primary-green);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-change-goal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================ */
+/* GOAL OPTIONS (Loss | Maintain | Gain) */
+/* Selectable goal cards */
+/* ============================================ */
+.goal-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+.goal-option {
+    padding: var(--spacing-lg);
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.goal-option i {
+    font-size: 32px;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-muted);
+}
+
+.goal-option:hover {
+    border-color: var(--primary-green);
+    background: var(--stat-green-bg);
+}
+
+.goal-option.selected {
+    border-color: var(--primary-green);
+    background: var(--stat-green-bg);
+    color: var(--primary-green);
+}
+
+.goal-option.selected i {
+    color: var(--primary-green);
+}
+
+/* ============================================ */
+/* ACTIVITY LEVEL CARDS */
+/* Selectable activity level options */
+/* ============================================ */
+.activity-levels {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.activity-card {
+    padding: var(--spacing-lg);
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* Activity Title */
+.activity-title {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+/* Activity Description */
+.activity-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Hover Effect */
+.activity-card:hover {
+    border-color: var(--primary-green);
+    background: var(--stat-green-bg);
+}
+
+/* Selected State */
+.activity-card.selected {
+    border-color: var(--primary-green);
+    background: var(--stat-green-bg);
+    color: var(--primary-green);
+}
+
+.activity-card.selected .activity-title {
+    color: var(--primary-green);
+}
+
+/* ============================================ */
+/* COMING SOON CARD (Settings Tab) */
+/* Placeholder for future features */
+/* ============================================ */
+.coming-soon-card {
+    text-align: center;
+    padding: var(--spacing-xl) * 2;
+    color: var(--text-muted);
+}
+
+.coming-soon-card i {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
+}
+
+.coming-soon-card h4 {
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-md);
+}
+
+/* ============================================ */
+/* RESPONSIVE DESIGN */
+/* Mobile and tablet adjustments */
+/* ============================================ */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+    /* Stack sidebar on top instead of side */
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        overflow-x: auto;
+        padding: 10px 0;
+    }
+    
+    .sidebar-item {
+        flex-direction: column;
+        min-width: 80px;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .sidebar-item i {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+    
+    .content-area {
+        margin-left: 0;
+        padding: var(--spacing-md);
+    }
+    
+    /* Stack stat cards vertically */
+    .stat-card {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    /* Stack activity cards vertically */
+    .activity-levels {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Stack goal options vertically */
+    .goal-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile phones (480px and below) */
+@media (max-width: 480px) {
+    .profile-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+    
+    .profile-name {
+        font-size: 1.2rem;
+    }
+    
+    .btn-edit-profile {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .tab-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+}
