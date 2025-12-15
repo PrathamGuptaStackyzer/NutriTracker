@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import UUID
+from sqlmodel import Session
 
 
 # SQLite database file
