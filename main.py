@@ -5,7 +5,7 @@ Modular architecture with separated routers
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from backend.database import init_db
 from backend.routers import auth_routes, onboarding_routes, dashboard_routes
@@ -86,7 +86,7 @@ def health_check():
         "app": "NutriTracker.ai API",
         "status": "running",
         "version": "1.0",
-        "modules": ["Authentication", "Onboarding"]
+        "modules": ["Authentication", "Onboarding", "Dashboard"],
     }
 
 # ============================================

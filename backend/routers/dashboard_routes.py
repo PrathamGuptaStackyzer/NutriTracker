@@ -1,9 +1,9 @@
 import os
 import shutil
+import tempfile
 from typing import Optional
 from fastapi import HTTPException, File, UploadFile, Form, APIRouter, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
-import tempfile
 from ..database import *
 from ..images import object_detection
 
