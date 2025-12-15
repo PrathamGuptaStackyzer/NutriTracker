@@ -7,8 +7,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 
-from database import get_db, User, PasswordResetCode
-from auth import (
+from backend.database import get_db, User, PasswordResetCode
+from backend.auth import (
     hash_password,
     verify_password,
     validate_password,
@@ -19,7 +19,7 @@ from auth import (
     check_rate_limit,
     reset_rate_limit
 )
-from models.schemas import (
+from backend.models.schemas import (
     RegisterRequest,
     LoginRequest,
     ForgotPasswordRequest,

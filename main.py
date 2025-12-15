@@ -3,14 +3,13 @@ NutriTracker.ai - FastAPI Main Application
 Modular architecture with separated routers
 """
 
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-import os
-
-from database import init_db
-from routers import auth_routes, onboarding_routes
+from backend.database import init_db
+from backend.routers import auth_routes, onboarding_routes, dashboard_routes
 
 # ============================================
 # FastAPI Application Setup
@@ -38,7 +37,7 @@ app.add_middleware(
 # Static Files (Frontend Assets)
 # ============================================
 
-frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
+frontend_path = os.path.join(os.path.dirname(__file__), "frontend")
 app.mount("/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css")
 app.mount("/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js")
 app.mount("/assets", StaticFiles(directory=os.path.join(frontend_path, "assets")), name="assets")
@@ -52,6 +51,9 @@ app.include_router(auth_routes.router)
 
 # Module 2: Onboarding
 app.include_router(onboarding_routes.router)
+
+# Module 3: Dashboard
+app.include_router(dashboard_routes.router)
 
 # ============================================
 # Database Initialization
@@ -71,7 +73,7 @@ def startup_event():
 @app.get("/")
 def serve_index():
     """Serve the main index.html landing page"""
-    index_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "index.html")
+    index_path = os.path.join(os.path.dirname(__file__), "frontend", "index.html")
     return FileResponse(index_path)
 
 # ============================================

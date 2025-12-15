@@ -7,9 +7,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime
 
-from database import get_db, User, UserProfile
-from onboarding import calculate_user_profile, validate_metrics
-from models.schemas import (
+from backend.database import get_db, User, UserProfile
+from backend.onboarding import calculate_user_profile, validate_metrics
+from backend.models.schemas import (
     ProfileStatusResponse,
     GoalRequest,
     MetricsRequest,

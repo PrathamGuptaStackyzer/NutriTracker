@@ -2,12 +2,14 @@
 NutriTracker.ai - Database Configuration
 SQLite database with SQLAlchemy ORM for authentication module
 """
-
+import uuid
 from sqlalchemy import create_engine, Column, String, Boolean, DateTime, ForeignKey, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
-import uuid
+from sqlalchemy.dialects.postgresql import UUID
+from sqlmodel import Session
+
 
 # SQLite database file
 DATABASE_URL = "sqlite:///./nutritracker.db"
@@ -85,12 +87,27 @@ class UserProfile(Base):
     # Relationship back to user
     user = relationship("User", back_populates="profile")
 
+class Meals(Base):
+    __tablename__ = "meals"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    # user_id = Column(String(36), ForeignKey("users.user_id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    meal_name = Column(String)
+    pic_url = Column(String, nullable=True)
+    file_type = Column(String, nullable=True)
+    file_name = Column(String, nullable=True)
+    weight_val = Column(Integer)
+    kcal_val = Column(Integer)
+    protein_val = Column(Float)
+    fat_val = Column(Float)
+    carb_val = Column(Float)
 
 def init_db():
     """Create all tables"""
     Base.metadata.create_all(bind=engine)
     print("✅ Database tables created successfully")
-
 
 def get_db():
     """Dependency to get database session"""
@@ -100,6 +117,17 @@ def get_db():
     finally:
         db.close()
 
+def insert_meal_(log, db):
+    print()
+    print()
+    print(log)
+    print()
+    print()
+    log = Meals(**log)
+    db.add(log)
+    db.commit()
+    db.refresh(log)
+    return log
 
 if __name__ == "__main__":
     print("Initializing NutriTracker database...")
