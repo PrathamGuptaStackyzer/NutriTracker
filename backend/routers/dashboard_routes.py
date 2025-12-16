@@ -83,7 +83,7 @@ async def insert_meal(
     ):
 
     data = {}
-    # data["user_id"] = 1
+    data["user_id"] = 1
     data["meal_name"] = str(meal_name)
     data["pic_url"] = pic_url
     data["file_type"] = file_type
@@ -153,4 +153,3 @@ async def upload_file(file: UploadFile = File(...), weight: str = Form(...)):
             url = url + f"&{key}={val}"
     # print(url)
     return RedirectResponse(url=url, status_code=302)
-

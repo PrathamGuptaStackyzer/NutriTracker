@@ -91,7 +91,7 @@ class Meals(Base):
     __tablename__ = "meals"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    # user_id = Column(String(36), ForeignKey("users.user_id"), nullable=False)
+    user_id = Column(String(36), ForeignKey("users.user_id"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     meal_name = Column(String)
@@ -117,12 +117,12 @@ def get_db():
     finally:
         db.close()
 
+def list_meals(limit, skip, user_id):
+    log = Meals(limit=limit, skip=skip, user_id=user_id)
+    return log
+
 def insert_meal_(log, db):
-    print()
-    print()
-    print(log)
-    print()
-    print()
+    # print(log)
     log = Meals(**log)
     db.add(log)
     db.commit()
