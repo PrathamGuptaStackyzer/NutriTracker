@@ -1,20 +1,15 @@
-/*
+/**
  * NutriTracker AI - Authentication Page Styles
- * Design: Clean, modern with #2E7D32 green theme
+ * For Login/Signup pages only
+ * 
+ * Note: Global styles (variables, resets, typography) are in base.css
  */
 
 /* ============================================ */
-/* Global Styles */
+/* Body - Auth Page Specific */
 /* ============================================ */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Poppins', sans-serif;
-    background: #F8FFF9; /* Light green-tinted background */
+    background: var(--bg-light); /* Light green-tinted background */
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -44,30 +39,30 @@ body {
 .logo-icon {
     width: 80px;
     height: 80px;
-    background: #2E7D32; /* Primary green */
+    background: var(--primary-green);
     border-radius: 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 40px;
     margin-bottom: 15px;
-    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+    box-shadow: var(--shadow-green);
 }
 
 .app-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #2E7D32;
+    color: var(--primary-green);
     margin-bottom: 5px;
 }
 
 .ai-text {
-    color: #7B68EE; /* Purple accent for "AI" */
+    color: var(--purple-accent);
 }
 
 .tagline {
     font-size: 1rem;
-    color: #666;
+    color: var(--text-gray);
     font-weight: 400;
 }
 
@@ -76,9 +71,9 @@ body {
 /* ============================================ */
 .auth-card {
     background: white;
-    border-radius: 24px;
+    border-radius: var(--radius-xl);
     padding: 40px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
     margin-bottom: 30px;
 }
 
@@ -89,8 +84,8 @@ body {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
-    background: #F5F5F5;
-    border-radius: 12px;
+    background: var(--bg-gray);
+    border-radius: var(--radius-md);
     padding: 6px;
 }
 
@@ -99,22 +94,22 @@ body {
     padding: 12px 20px;
     border: none;
     background: transparent;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 1rem;
     font-weight: 500;
-    color: #666;
+    color: var(--text-gray);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal);
 }
 
 .tab-btn.active {
     background: white;
-    color: #2E7D32;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    color: var(--primary-green);
+    box-shadow: var(--shadow-sm);
 }
 
 .tab-btn:hover:not(.active) {
-    color: #2E7D32;
+    color: var(--primary-green);
 }
 
 /* ============================================ */
@@ -132,30 +127,30 @@ body {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
-    color: #333;
+    color: var(--text-primary);
     font-size: 0.95rem;
 }
 
 .form-input {
     width: 100%;
     padding: 14px 18px;
-    border: 1px solid #E0E0E0;
-    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
     font-size: 1rem;
     font-family: 'Poppins', sans-serif;
-    transition: all 0.3s ease;
-    background: #FAFAFA;
+    transition: all var(--transition-normal);
+    background: var(--bg-light-gray);
 }
 
 .form-input:focus {
     outline: none;
-    border-color: #2E7D32;
+    border-color: var(--primary-green);
     background: white;
     box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
 }
 
 .form-input::placeholder {
-    color: #999;
+    color: var(--text-placeholder);
 }
 
 /* Small helper text under inputs */
@@ -163,7 +158,7 @@ body {
     display: block;
     margin-top: 6px;
     font-size: 0.85rem;
-    color: #666;
+    color: var(--text-gray);
 }
 
 /* ============================================ */
@@ -175,18 +170,18 @@ body {
 
 .form-check-input {
     cursor: pointer;
-    border-color: #2E7D32;
+    border-color: var(--primary-green);
 }
 
 .form-check-input:checked {
-    background-color: #2E7D32;
-    border-color: #2E7D32;
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
 }
 
 .form-check-label {
     cursor: pointer;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-gray);
 }
 
 /* ============================================ */
@@ -195,21 +190,21 @@ body {
 .auth-btn {
     width: 100%;
     padding: 14px 20px;
-    background: #2E7D32; /* Primary green */
+    background: var(--primary-green);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     font-size: 1.05rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal);
     font-family: 'Poppins', sans-serif;
 }
 
 .auth-btn:hover {
-    background: #256428; /* Darker green on hover */
+    background: var(--primary-green-dark);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+    box-shadow: var(--shadow-green-hover);
 }
 
 .auth-btn:active {
@@ -226,15 +221,15 @@ body {
 /* Links (Forgot Password) */
 /* ============================================ */
 .forgot-link {
-    color: #2E7D32;
+    color: var(--primary-green);
     text-decoration: none;
     font-size: 0.95rem;
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: color var(--transition-fast);
 }
 
 .forgot-link:hover {
-    color: #256428;
+    color: var(--primary-green-dark);
     text-decoration: underline;
 }
 
@@ -252,7 +247,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #666;
+    color: var(--text-gray);
     font-size: 0.9rem;
 }
 
@@ -265,43 +260,18 @@ body {
 }
 
 /* ============================================ */
-/* Modal Customization */
+/* Modal Footer Customization */
 /* ============================================ */
-.modal-content {
-    border-radius: 20px;
-    border: none;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-}
-
-.modal-header {
-    border-bottom: 1px solid #F0F0F0;
-    padding: 20px 24px;
-}
-
-.modal-title {
-    font-weight: 600;
-    color: #2E7D32;
-}
-
-.modal-body {
-    padding: 24px;
-}
-
-.modal-footer {
-    border-top: 1px solid #F0F0F0;
-    padding: 16px 24px;
-}
-
 .modal-footer .btn-secondary {
-    background: #E0E0E0;
+    background: var(--border-light);
     border: none;
-    color: #666;
+    color: var(--text-gray);
     padding: 10px 24px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .modal-footer .btn-secondary:hover {
-    background: #D0D0D0;
+    background: var(--border-medium);
 }
 
 .modal-footer .auth-btn {
@@ -331,7 +301,7 @@ body {
 }
 
 /* ============================================ */
-/* Loading State (Optional - for future use) */
+/* Loading State */
 /* ============================================ */
 .auth-btn.loading {
     position: relative;
@@ -357,32 +327,4 @@ body {
     to {
         transform: rotate(360deg);
     }
-}
-
-/* ============================================ */
-/* Alert/Toast Messages (for validation errors) */
-/* ============================================ */
-.alert {
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-    font-size: 0.9rem;
-}
-
-.alert-danger {
-    background: #FFF3F3;
-    color: #D32F2F;
-    border: 1px solid #FFCDD2;
-}
-
-.alert-success {
-    background: #F1F8F4;
-    color: #2E7D32;
-    border: 1px solid #C8E6C9;
-}
-
-.alert-info {
-    background: #E3F2FD;
-    color: #1976D2;
-    border: 1px solid #BBDEFB;
 }

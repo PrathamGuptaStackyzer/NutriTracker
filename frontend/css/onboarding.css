@@ -1,28 +1,16 @@
 /* ============================================
    NutriTracker.ai - Onboarding Styles
    Green theme with slide transitions
+   
+   Note: Global styles (CSS variables, resets) are in base.css
    ============================================ */
 
-:root {
-    --primary-green: #2E7D32;
-    --primary-green-dark: #1B5E20;
-    --primary-green-light: #4CAF50;
-    --secondary-green: #81C784;
-    --background-light: #F1F8E9;
-    --text-dark: #1B5E20;
-    --text-muted: #6c757d;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --card-hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    --transition-speed: 0.3s;
-}
-
 /* ============================================
-   Global Styles
+   Onboarding Body Styles
    ============================================ */
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #F1F8E9 0%, #E8F5E9 100%);
+    background: linear-gradient(135deg, var(--bg-light-green) 0%, var(--bg-green-tint) 100%);
     min-height: 100vh;
     margin: 0;
     padding: 0;

@@ -9,35 +9,15 @@
  * - Stats cards (green, blue, purple)
  * - Activity level selector cards
  * - Responsive layout
+ * 
+ * Note: Global styles (CSS variables, resets) are in base.css
  */
 
 /* ============================================ */
-/* CSS VARIABLES (Color Palette) */
+/* Profile-Specific CSS Variables */
 /* ============================================ */
 :root {
-    /* Primary Brand Colors */
-    --primary-green: #2E7D32;
-    --primary-green-dark: #1B5E20;
-    --primary-green-light: #4CAF50;
-    
-    /* Background Colors */
-    --bg-light: #f5f6fa;
-    --bg-white: #ffffff;
-    
-    /* Text Colors */
-    --text-dark: #2c3e50;
-    --text-muted: #6c757d;
-    --text-light: #95a5a6;
-    
-    /* Stat Card Colors */
-    --stat-green-bg: #E8F5E9;
-    --stat-green-text: #2E7D32;
-    --stat-blue-bg: #E3F2FD;
-    --stat-blue-text: #1976D2;
-    --stat-purple-bg: #F3E5F5;
-    --stat-purple-text: #7B1FA2;
-    
-    /* Badge Colors */
+    /* Badge Colors (profile-specific) */
     --badge-streak-bg: #E8F5E9;
     --badge-streak-text: #2E7D32;
     --badge-pro-bg: #E3F2FD;
@@ -55,18 +35,10 @@
 }
 
 /* ============================================ */
-/* GLOBAL RESETS */
+/* Profile Page Body */
 /* ============================================ */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: var(--bg-light);
-    color: var(--text-dark);
     min-height: 100vh;
     overflow-x: hidden;
 }

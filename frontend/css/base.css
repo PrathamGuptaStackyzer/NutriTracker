@@ -1,0 +1,296 @@
+/**
+ * NutriTracker AI - Base/Global Styles
+ * Shared across all pages
+ * 
+ * Contains:
+ * - CSS Variables (Color Palette, Spacing)
+ * - Global Resets
+ * - Typography
+ * - Utility Classes
+ */
+
+/* ============================================ */
+/* CSS VARIABLES (Color Palette) */
+/* ============================================ */
+:root {
+    /* Primary Brand Colors */
+    --primary-green: #2E7D32;
+    --primary-green-dark: #1B5E20;
+    --primary-green-light: #4CAF50;
+    --secondary-green: #81C784;
+    
+    /* Accent Colors */
+    --purple-accent: #7B68EE;
+    --purple-dark: #7B1FA2;
+    
+    /* Background Colors */
+    --bg-light: #F8FFF9;
+    --bg-light-green: #F1F8E9;
+    --bg-green-tint: #E8F5E9;
+    --bg-white: #ffffff;
+    --bg-gray: #F5F5F5;
+    --bg-light-gray: #FAFAFA;
+    
+    /* Text Colors */
+    --text-dark: #2c3e50;
+    --text-primary: #333;
+    --text-muted: #6c757d;
+    --text-light: #95a5a6;
+    --text-gray: #666;
+    --text-placeholder: #999;
+    
+    /* Stat Card Colors */
+    --stat-green-bg: #E8F5E9;
+    --stat-green-text: #2E7D32;
+    --stat-blue-bg: #E3F2FD;
+    --stat-blue-text: #1976D2;
+    --stat-purple-bg: #F3E5F5;
+    --stat-purple-text: #7B1FA2;
+    
+    /* Border Colors */
+    --border-light: #E0E0E0;
+    --border-gray: #F0F0F0;
+    --border-medium: #D0D0D0;
+    
+    /* Alert/Message Colors */
+    --alert-danger-bg: #FFF3F3;
+    --alert-danger-text: #D32F2F;
+    --alert-danger-border: #FFCDD2;
+    --alert-success-bg: #F1F8F4;
+    --alert-success-text: #2E7D32;
+    --alert-success-border: #C8E6C9;
+    --alert-info-bg: #E3F2FD;
+    --alert-info-text: #1976D2;
+    --alert-info-border: #BBDEFB;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --shadow-green: 0 4px 12px rgba(46, 125, 50, 0.2);
+    --shadow-green-hover: 0 6px 20px rgba(46, 125, 50, 0.3);
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+    
+    /* Spacing (can be used for consistent padding/margins) */
+    --space-xs: 6px;
+    --space-sm: 10px;
+    --space-md: 20px;
+    --space-lg: 30px;
+    --space-xl: 40px;
+}
+
+/* ============================================ */
+/* Global Reset */
+/* ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================================ */
+/* Typography */
+/* ============================================ */
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* ============================================ */
+/* Utility Classes */
+/* ============================================ */
+.text-green {
+    color: var(--primary-green);
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.bg-light-green {
+    background-color: var(--bg-light-green);
+}
+
+.shadow-green {
+    box-shadow: var(--shadow-green);
+}
+
+/* ============================================ */
+/* Common Button Styles */
+/* ============================================ */
+.btn-primary-green {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary-green:hover {
+    background: var(--primary-green-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-green-hover);
+}
+
+.btn-primary-green:active {
+    transform: translateY(0);
+}
+
+.btn-primary-green:disabled {
+    background: #9E9E9E;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============================================ */
+/* Common Form Styles */
+/* ============================================ */
+.form-input-base {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: all var(--transition-normal);
+    background: var(--bg-light-gray);
+}
+
+.form-input-base:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    background: var(--bg-white);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-input-base::placeholder {
+    color: var(--text-placeholder);
+}
+
+/* ============================================ */
+/* Alert/Toast Messages */
+/* ============================================ */
+.alert {
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.alert-danger {
+    background: var(--alert-danger-bg);
+    color: var(--alert-danger-text);
+    border: 1px solid var(--alert-danger-border);
+}
+
+.alert-success {
+    background: var(--alert-success-bg);
+    color: var(--alert-success-text);
+    border: 1px solid var(--alert-success-border);
+}
+
+.alert-info {
+    background: var(--alert-info-bg);
+    color: var(--alert-info-text);
+    border: 1px solid var(--alert-info-border);
+}
+
+/* ============================================ */
+/* Loading Spinner (Reusable) */
+/* ============================================ */
+.loading-spinner {
+    position: relative;
+    color: transparent;
+}
+
+.loading-spinner::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid white;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================ */
+/* Common Modal Styles */
+/* ============================================ */
+.modal-content {
+    border-radius: var(--radius-lg);
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-gray);
+    padding: 20px 24px;
+}
+
+.modal-title {
+    font-weight: 600;
+    color: var(--primary-green);
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-gray);
+    padding: 16px 24px;
+}
+
+/* ============================================ */
+/* Scrollbar Customization */
+/* ============================================ */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green-dark);
+}
