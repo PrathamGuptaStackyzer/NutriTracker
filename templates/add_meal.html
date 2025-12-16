@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Meal</title>
+</head>
+<body>
+    <h1>Add Meal</h1>
+    <form action="/meal/log_meal" method="get">
+        Name: <input type="text" name="meal_name" value="{{ meal.meal_name }}" required><br>
+        pic_url: <input type="text" name="pic_url" value="{{ meal.pic_url }}"><br>
+        file_type: <input type="text" name="file_type" value="{{ meal.file_type }}"><br>
+        file_name: <input type="text" name="file_name" value="{{ meal.file_name }}"><br>
+        Calories: <input type="text" name="kcal_val" value="{{ meal.kcal_val }}" required><br>
+        Weight: <input type="text" name="weight_val" value="{{ meal.weight_val }}" required><br>
+        Protein: <input type="text" name="protein_val" value="{{ meal.protein_val }}"><br>
+        Fat: <input type="text" name="fat_val" value="{{ meal.fat_val }}"><br>
+        Carbs: <input type="text" name="carb_val" value="{{ meal.carb_val }}"><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Upload Image</h2>
+    <form action="/meal/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required><br>
+        Weight: <input type="text" name="weight" value="" required><br>
+        <button type="submit">Process Image</button>
+    </form>
+</body>
+</html>

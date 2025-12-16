@@ -4,25 +4,30 @@ import tempfile
 from typing import Optional
 from fastapi import HTTPException, File, UploadFile, Form, APIRouter, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.requests import Request
 from ..database import *
 from ..images import object_detection
 
 router = APIRouter(prefix="/meal", tags=["Dashboard"])
+templates = Jinja2Templates(directory="templates")
 
 
 @router.get('/')
-async def home():
-    return HTMLResponse("""<a href="/meal/add_meal"> Go to add Meal! </a>""")
+async def home(request: Request, db: Session = Depends(get_db)):
+    meals = db.query(Meals).filter(Meals.user_id == 1).all()
+    return templates.TemplateResponse("meals.html", {"request": request, "meals": meals})
 
 
 @router.get("/add_meal")
 async def add_meal(
+        request: Request,
         meal_name: Optional[str] = "",
         pic_url: Optional[str] = "",
         file_type: Optional[str] = "",
         file_name: Optional[str] = "",
-        weight_val: Optional[str] = "",
         kcal_val: Optional[str] = "",
+        weight_val: Optional[str] = "",
         protein_val: Optional[str] = "",
         fat_val: Optional[str] = "",
         carb_val: Optional[str] = "",
@@ -38,33 +43,18 @@ async def add_meal(
     fat_val = fat_val
     carb_val = carb_val
 
-    html = f"""
-    <html>
-    <body>
-        <h2>User Form</h2>
-        <form action="/meal/log_meal" method="get">
-            Name: <input type="text" name="meal_name" value="{meal_name}" required><br>
-            pic_url: <input type="text" name="pic_url" value="{pic_url}"><br>
-            file_type: <input type="text" name="file_type" value="{file_type}"><br>
-            file_name: <input type="text" name="file_name" value="{file_name}"><br>
-            Calories: <input type="text" name="kcal_val" value="{kcal_val}" required><br>
-            Weight: <input type="text" name="weight_val" value="{weight_val}" required><br>
-            Protein: <input type="text" name="protein_val" value="{protein_val}"><br>
-            Fat: <input type="text" name="fat_val" value="{fat_val}"><br>
-            Carbs: <input type="text" name="carb_val" value="{carb_val}"><br>
-            <button type="submit">Submit</button>
-        </form>
-
-        <h2>Upload Image</h2>
-        <form action="/meal/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" required><br>
-            Weight: <input type="text" name="weight" value="" required><br>
-            <button type="submit">Process Image</button>
-        </form>
-    </body>
-    </html>
-    """
-    return HTMLResponse(html)
+    meal = {
+        "meal_name": meal_name,
+        "pic_url": pic_url,
+        "file_type": file_type,
+        "file_name": file_name,
+        "kcal_val": kcal_val,
+        "weight_val": weight_val,
+        "protein_val": protein_val,
+        "fat_val": fat_val,
+        "carb_val": carb_val,
+    }
+    return templates.TemplateResponse("add_meal.html", {"request": request, "meal": meal})
 
 
 @router.get("/log_meal")
@@ -153,3 +143,54 @@ async def upload_file(file: UploadFile = File(...), weight: str = Form(...)):
             url = url + f"&{key}={val}"
     # print(url)
     return RedirectResponse(url=url, status_code=302)
+
+
+@router.get("/edit/{meal_id}")
+async def edit_meal(meal_id: str, request: Request, db: Session = Depends(get_db)):
+    meal_id = uuid.UUID(meal_id)
+    meal = db.query(Meals).filter(Meals.id == meal_id).offset(0).limit(1).first()
+    print(meal)
+    if not meal:
+        raise HTTPException(status_code=404, detail="Meal not found")
+
+    return templates.TemplateResponse("edit_meal.html", {"request": request, "meal": meal})
+
+
+@router.post("/edit/{meal_id}")
+async def update_meal(
+    meal_id: str,
+    meal_name: str = Form(...),
+    weight_val: str = Form(...),
+    kcal_val: int = Form(...),
+    protein_val: float = Form(...),
+    fat_val: float = Form(...),
+    carb_val: float = Form(...),
+    db: Session = Depends(get_db),
+):
+    meal_id = uuid.UUID(meal_id)
+    meal = db.query(Meals).filter(Meals.id == meal_id).first()
+    if not meal:
+        raise HTTPException(status_code=404, detail="Meal not found")
+
+    meal.meal_name = meal_name
+    meal.kcal_val = kcal_val
+    meal.weight_val = weight_val
+    meal.protein_val = protein_val
+    meal.fat_val = fat_val
+    meal.carb_val = carb_val
+    db.commit()
+
+    return RedirectResponse(url="/meal", status_code=302)
+
+
+@router.get("/delete/{meal_id}")
+async def delete_meal(meal_id: str, db: Session = Depends(get_db)):
+    meal_id = uuid.UUID(meal_id)
+    meal = db.query(Meals).filter(Meals.id == meal_id).first()
+    if not meal:
+        raise HTTPException(status_code=404, detail="Meal not found")
+
+    db.delete(meal)
+    db.commit()
+
+    return RedirectResponse(url="/meal", status_code=302)
