@@ -206,7 +206,7 @@ async function sendResetCode() {
     resetEmail = email;
     
     // Disable button
-    const btn = event.target;
+    const btn = event.target; 
     btn.disabled = true;
     btn.textContent = 'Sending...';
     

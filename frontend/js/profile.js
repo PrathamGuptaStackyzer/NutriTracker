@@ -336,23 +336,18 @@ async function handlePersonalFormSubmit(event) {
 // Updates goal, target weight, activity level
 // ============================================
 async function handleGoalsFormSubmit(event) {
-    // Prevent default form submission
     event.preventDefault();
     
     console.log('🎯 Submitting goals...');
-    
-    // Get form values
-    const targetWeight = document.getElementById('targetWeight').value;
-    const weeklyChange = document.getElementById('weeklyChange').value;
-    
-    // Prepare data for API
+
+    // No more inputs to read from DOM — everything comes from selected variables
     const formData = {
         goal: selectedGoal || currentProfile.goal,
-        activity_level: selectedActivity || currentProfile.activity_level,
-        target_weight_kg: targetWeight ? parseFloat(targetWeight) : null
+        activity_level: selectedActivity || currentProfile.activity_level
+        // Removed: target_weight_kg, weekly_change_kg, etc.
     };
-    
-    // Validate
+
+    // Basic validation
     if (!formData.goal) {
         showError('Please select a goal');
         return;
@@ -362,18 +357,15 @@ async function handleGoalsFormSubmit(event) {
         showError('Please select an activity level');
         return;
     }
-    
+
     try {
-        // Get authentication token
         const token = localStorage.getItem('access_token');
         
-        // Show saving state
         const submitBtn = event.target.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Updating...';
         submitBtn.disabled = true;
-        
-        // Make API call to update goals
+
         const response = await fetch(`${API_BASE}/api/profile/goals`, {
             method: 'PUT',
             headers: {
@@ -382,48 +374,45 @@ async function handleGoalsFormSubmit(event) {
             },
             body: JSON.stringify(formData)
         });
-        
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.detail || 'Failed to update goals');
         }
-        
+
         const result = await response.json();
         console.log('✅ Goals updated:', result);
         
-        // Show success message
         showSuccess('Goals updated successfully!');
-        
-        // Update current profile with new values
+
+        // Update currentProfile with new values
         if (result.updated_metrics) {
             currentProfile.maintenance_calories = result.updated_metrics.maintenance_calories;
             currentProfile.daily_calorie_goal = result.updated_metrics.daily_calorie_goal;
+            
+            // Update goal and activity level
             currentProfile.goal = formData.goal;
             currentProfile.activity_level = formData.activity_level;
-            currentProfile.target_weight_kg = formData.target_weight_kg;
-            
-            // Update stats display
+
+            // Update UI
             updateStatsDisplay(currentProfile);
-            
-            // Update goal display
             document.getElementById('currentGoalDisplay').textContent = getGoalDisplayText(formData.goal);
         }
-        
+
         // Restore button
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-        
+
     } catch (error) {
         console.error('❌ Error updating goals:', error);
         showError(error.message || 'Failed to update goals');
-        
-        // Restore button
+
+        // Restore button on error
         const submitBtn = event.target.querySelector('button[type="submit"]');
         submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Update Goals';
         submitBtn.disabled = false;
     }
 }
-
 // ============================================
 // SETUP SELECTORS
 // Activity level and goal selectors
