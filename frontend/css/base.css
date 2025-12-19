@@ -8,14 +8,91 @@
  * - Typography
  * - Utility Classes
  */
+/* ============================================ */
+/* DARK MODE THEME */
+/* ============================================ */
 
+/* Default is Light Mode (already in :root) */
+
+/* Dark Mode Override */
+.dark-mode {
+    /* Backgrounds */
+    --bg-light: #121212;
+    --bg-light-green: #1e272e;
+    --bg-green-tint: #1e3324;
+    --bg-white: #1e1e1e;
+    --bg-gray: #252525;
+    --bg-light-gray: #2d2d2d;
+
+    /* Text Colors */
+    --text-dark: #e0e0e0;
+    --text-primary: #ffffff;
+    --text-muted: #b0b0b0;
+    --text-light: #aaaaaa;
+    --text-gray: #cccccc;
+
+    /* Borders */
+    --border-light: #333333;
+    --border-gray: #404040;
+
+    /* Cards & Stats */
+    --stat-green-bg: #1e3324;
+    --stat-blue-bg: #1e2a3a;
+    --stat-purple-bg: #2d1b3a;
+
+    /* Alerts */
+    --alert-danger-bg: #3d1f1f;
+    --alert-success-bg: #1e3324;
+    --alert-info-bg: #1e2a3a;
+
+    /* Navbar (override gradient) */
+    /* We'll handle navbar separately in JS or CSS */
+}
+
+/* Optional: Dark mode navbar */
+.dark-mode .navbar {
+    background: linear-gradient(135deg, #1B5E20 0%, #0d3311 100%) !important;
+}
+
+/* Sidebar in dark mode */
+.dark-mode .sidebar {
+    background: #1e1e1e;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .sidebar-item:hover,
+.dark-mode .sidebar-item.active {
+    background: #2d2d2d;
+}
+
+/* Form inputs in dark mode */
+.dark-mode .form-input-base,
+.dark-mode .form-control {
+    background: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .form-control::placeholder {
+    color: #888 !important;
+}
+
+/* Cards */
+.dark-mode .profile-header,
+.dark-mode .goal-display-card,
+.dark-mode .stat-card,
+.dark-mode .activity-card,
+.dark-mode .goal-option {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+}
 /* ============================================ */
 /* CSS VARIABLES (Color Palette) */
 /* ============================================ */
 :root {
     /* Primary Brand Colors */
-    --primary-green: #2E7D32;
-    --primary-green-dark: #1B5E20;
+    --primary-green: #58dc5f;
+    --primary-green-dark: #36b53e;
     --primary-green-light: #4CAF50;
     --secondary-green: #81C784;
     
@@ -103,10 +180,12 @@
 /* ============================================ */
 body {
     font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
     color: var(--text-dark);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {

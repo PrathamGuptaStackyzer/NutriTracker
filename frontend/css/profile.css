@@ -699,3 +699,218 @@ body {
         font-size: 0.9rem;
     }
 }
+
+/* ============================================ */
+/* DARK MODE OVERRIDES */
+/* Applied when body has .dark-mode class */
+/* ============================================ */
+
+/* Main backgrounds */
+body.dark-mode {
+    background: #121212 !important;
+}
+
+body.dark-mode .main-container {
+    background: #121212 !important;
+}
+
+/* Sidebar */
+body.dark-mode .sidebar {
+    background: #1e1e1e !important;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .sidebar-item {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .sidebar-item:hover {
+    background: #2d2d2d !important;
+    color: #4CAF50 !important;
+}
+
+body.dark-mode .sidebar-item.active {
+    background: #1e3324 !important;
+    color: #4CAF50 !important;
+}
+
+/* Content area */
+body.dark-mode .content-area {
+    background: #121212 !important;
+}
+
+/* Profile header */
+body.dark-mode .profile-header {
+    background: #1e1e1e !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .profile-name {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .profile-email {
+    color: #b0b0b0 !important;
+}
+
+/* Tab navigation */
+body.dark-mode .tab-navigation {
+    background: #1e1e1e !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .tab-btn {
+    color: #b0b0b0 !important;
+}
+
+body.dark-mode .tab-btn:hover {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .tab-btn.active {
+    background: #1e3324 !important;
+    color: #4CAF50 !important;
+}
+
+/* Tab content container */
+body.dark-mode .tab-content-container {
+    background: #1e1e1e !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Form inputs */
+body.dark-mode .form-control,
+body.dark-mode .form-input-base,
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="number"] {
+    background: #2d2d2d !important;
+    border-color: #404040 !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .form-control:focus {
+    background: #333 !important;
+    border-color: #4CAF50 !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #888 !important;
+}
+
+/* Form labels */
+body.dark-mode .form-label,
+body.dark-mode label {
+    color: #e0e0e0;
+}
+
+/* Stat cards */
+body.dark-mode .stat-card {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .stat-card.green {
+    background: #1e3324 !important;
+}
+
+body.dark-mode .stat-card.blue {
+    background: #1e2a3a !important;
+}
+
+body.dark-mode .stat-card.purple {
+    background: #2d1b3a !important;
+}
+
+/* Activity cards */
+body.dark-mode .activity-card {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .activity-card:hover {
+    background: #252525 !important;
+    border-color: #4CAF50 !important;
+}
+
+body.dark-mode .activity-card.selected {
+    background: #1e3324 !important;
+    border-color: #4CAF50 !important;
+}
+
+body.dark-mode .activity-title {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .activity-desc {
+    color: #b0b0b0 !important;
+}
+
+/* Goal cards */
+body.dark-mode .goal-option {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .goal-option:hover {
+    background: #252525 !important;
+    border-color: #4CAF50 !important;
+}
+
+body.dark-mode .goal-option.selected {
+    background: #1e3324 !important;
+    border-color: #4CAF50 !important;
+}
+
+body.dark-mode .goal-display-card {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+/* Text colors */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode .text-muted {
+    color: #b0b0b0 !important;
+}
+
+body.dark-mode .page-subtitle {
+    color: #b0b0b0 !important;
+}
+
+/* Edit button */
+body.dark-mode .btn-edit-profile {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border-color: #404040 !important;
+}
+
+body.dark-mode .btn-edit-profile:hover {
+    background: #333 !important;
+    border-color: #4CAF50 !important;
+    color: #4CAF50 !important;
+}
+
+/* Cards in settings */
+body.dark-mode .card {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .card h5 {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .card p {
+    color: #b0b0b0 !important;
+}

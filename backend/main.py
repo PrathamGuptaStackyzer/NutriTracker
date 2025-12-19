@@ -10,7 +10,10 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from database import init_db
-from routers import auth_routes, onboarding_routes, profile_routes
+
+# Import routers
+from routers import auth_routes, onboarding_routes
+from routers import profile_routes  # ← Updated import
 
 # ============================================
 # FastAPI Application Setup
@@ -53,7 +56,7 @@ app.include_router(auth_routes.router)
 # Module 2: Onboarding
 app.include_router(onboarding_routes.router)
 
-# Module 7: User Profile
+# Module 7: User Profile (now split: logic in profile.py, router here)
 app.include_router(profile_routes.router)
 
 # ============================================
@@ -71,6 +74,7 @@ def startup_event():
 # ============================================
 # Frontend Routes
 # ============================================
+
 @app.get("/")
 @app.get("/index.html")
 def serve_index():

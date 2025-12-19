@@ -99,3 +99,4 @@ class ProfileResponse(BaseModel):
     daily_calorie_goal: int
     goal_description: str
     ideal_weight_range: str
+

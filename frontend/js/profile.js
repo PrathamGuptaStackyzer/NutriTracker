@@ -28,6 +28,20 @@ let selectedActivity = null;
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Profile page initialized');
     
+    // Initialize dark mode theme first
+    applySavedTheme();
+    
+    // Add dark mode toggle listener
+    const toggle = document.getElementById('darkModeToggle');
+    if (toggle) {
+        toggle.addEventListener('change', toggleDarkMode);
+        console.log('🌙 Dark mode toggle attached');
+        // Debug: print initial computed styles
+        console.log('🌙 Theme init - body has dark-mode class?', document.body.classList.contains('dark-mode'));
+        console.log('🌙 Computed body background:', getComputedStyle(document.body).backgroundColor);
+        console.log('🌙 CSS var --bg-light:', getComputedStyle(document.body).getPropertyValue('--bg-light'));
+    }
+    
     // Load user profile data from backend
     loadProfileData();
     
@@ -540,6 +554,69 @@ function showError(message) {
     console.error('❌', message);
 }
 
+// ============================================
+// DARK MODE TOGGLE FUNCTIONALITY
+// ============================================
+
+// Apply saved theme on page load
+function applySavedTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const toggle = document.getElementById('darkModeToggle');
+    console.log('🌙 applySavedTheme() - savedTheme =', savedTheme);
+
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (toggle) toggle.checked = true;
+        console.log('🌙 applySavedTheme() -> applied dark-mode class');
+    } else {
+        document.body.classList.remove('dark-mode');
+        if (toggle) toggle.checked = false;
+        console.log('🌙 applySavedTheme() -> ensured light theme (removed dark-mode)');
+    }
+
+    // Debug: show computed styles and CSS variable values after applying
+    try {
+        console.log('🌙 applySavedTheme() computed background:', getComputedStyle(document.body).backgroundColor);
+        console.log('🌙 applySavedTheme() CSS var --bg-light:', getComputedStyle(document.body).getPropertyValue('--bg-light'));
+    } catch (e) {
+        console.warn('🌙 applySavedTheme() - could not read computed styles', e);
+    }
+}
+
+// Toggle theme
+function toggleDarkMode() {
+    const toggle = document.getElementById('darkModeToggle');
+    
+    if (!toggle) {
+        console.error('🌙 toggleDarkMode() - toggle element not found');
+        return;
+    }
+
+    console.log('🌙 toggleDarkMode() - before change, checked =', toggle.checked);
+
+    if (toggle.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+        console.log('🌙 toggleDarkMode() -> set dark theme');
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+        console.log('🌙 toggleDarkMode() -> set light theme');
+    }
+
+    // Small timeout to allow CSS to apply, then log computed result
+    setTimeout(() => {
+        try {
+            console.log('🌙 toggleDarkMode() computed background:', getComputedStyle(document.body).backgroundColor);
+            console.log('🌙 toggleDarkMode() CSS var --bg-light:', getComputedStyle(document.body).getPropertyValue('--bg-light'));
+            console.log('🌙 toggleDarkMode() body.classList contains dark-mode?', document.body.classList.contains('dark-mode'));
+        } catch (e) {
+            console.warn('🌙 toggleDarkMode() - could not read computed styles', e);
+        }
+    }, 40);
+}
+
+// Note: Theme initialization moved to main DOMContentLoaded handler at top of file
 // ============================================
 // EXPORT FUNCTIONS (For Testing)
 // ============================================
