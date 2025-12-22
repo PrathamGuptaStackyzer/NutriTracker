@@ -9,9 +9,11 @@ from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 import uuid
 
-# SQLite database file
-DATABASE_URL = "sqlite:///./nutritracker.db"
+# SQLite database file in backend folder
+import os
 
+# Absolute path to backend folder's db file
+DATABASE_URL = f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), 'nutritracker.db'))}"
 # Create engine
 engine = create_engine(
     DATABASE_URL, 
