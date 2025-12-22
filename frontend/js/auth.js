@@ -82,10 +82,8 @@ async function handleLogin() {
             
             showAlert('Login successful! Redirecting...', 'success');
             
-            // Redirect to onboarding page (Module 2 - not implemented yet)
-            setTimeout(() => {
-                window.location.href = '/onboarding.html'; // Will be created in Module 2
-            }, 1500);
+            // Check if user has completed onboarding
+            checkOnboardingAndRedirect();
         } else {
             // Login failed - show error
             showAlert(data.detail || 'Invalid email or password', 'danger');
@@ -158,11 +156,11 @@ async function handleSignup() {
             // Store JWT token in localStorage
             localStorage.setItem('access_token', data.access_token);
             
-            showAlert('Account created! Redirecting...', 'success');
+            showAlert('Account created! Let\'s set up your profile...', 'success');
             
-            // Redirect to onboarding page (Module 2 - not implemented yet)
+            // Redirect to onboarding page
             setTimeout(() => {
-                window.location.href = '/onboarding.html'; // Will be created in Module 2
+                window.location.href = 'onboarding.html';
             }, 1500);
         } else {
             // Registration failed - show error
@@ -208,7 +206,7 @@ async function sendResetCode() {
     resetEmail = email;
     
     // Disable button
-    const btn = event.target;
+    const btn = event.target; 
     btn.disabled = true;
     btn.textContent = 'Sending...';
     
@@ -440,6 +438,40 @@ window.addEventListener('DOMContentLoaded', () => {
         // window.location.href = '/dashboard.html';
     }
 });
+
+// ============================================
+// Check Onboarding Status and Redirect
+// ============================================
+async function checkOnboardingAndRedirect() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/profile/status`);
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            setTimeout(() => {
+                if (data.complete) {
+                    // Profile complete, go to dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Profile incomplete, go to onboarding
+                    window.location.href = 'onboarding.html';
+                }
+            }, 1500);
+        } else {
+            // Default to onboarding if status check fails
+            setTimeout(() => {
+                window.location.href = 'onboarding.html';
+            }, 1500);
+        }
+    } catch (error) {
+        console.error('Error checking onboarding status:', error);
+        // Default to onboarding on error
+        setTimeout(() => {
+            window.location.href = 'onboarding.html';
+        }, 1500);
+    }
+}
 
 // ============================================
 // Enter Key Support for Forms

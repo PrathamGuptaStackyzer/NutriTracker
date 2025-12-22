@@ -14,6 +14,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
+from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
 
 # Load environment variables
 load_dotenv()
@@ -317,7 +320,7 @@ def send_reset_code_email(email: str, code: str) -> bool:
         print(f"Error type: {type(e).__name__}")
         print(f"Gmail User: {GMAIL_USER}")
         print(f"SMTP Server: {SMTP_SERVER}:{SMTP_PORT}")
-        
+
         # Fallback to console logging
         print("\n" + "="*60)
         print("📧 PASSWORD RESET CODE EMAIL (Console Log - Email Failed)")
@@ -373,3 +376,86 @@ def reset_rate_limit(email: str):
     """Reset rate limit for email (call on successful login)"""
     if email in login_attempts:
         login_attempts[email] = []
+
+
+# ============================================
+# Authentication Dependency for Protected Routes
+# ============================================
+
+# Import database models (must be after database module is defined)
+from database import get_db, User
+
+# Security scheme for JWT tokens
+security = HTTPBearer()
+
+
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db)
+) -> User:
+    """
+    Dependency to get the current authenticated user from JWT token
+    
+    This function:
+    1. Extracts the JWT token from Authorization header
+    2. Verifies the token is valid
+    3. Gets user from database
+    4. Returns User object
+    
+    Args:
+        credentials: JWT token from Authorization header (Bearer token)
+        db: Database session
+    
+    Returns:
+        User object if authentication successful
+    
+    Raises:
+        HTTPException 401: If token is invalid or user not found
+    
+    Usage in routes:
+        @router.get("/protected")
+        async def protected_route(current_user: User = Depends(get_current_user)):
+            return {"user": current_user.email}
+    """
+    # Extract token from credentials
+    token = credentials.credentials
+    
+    # Verify token and get payload
+    payload = verify_token(token)
+    
+    if not payload:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Get user_id from token payload
+    # Token uses "sub" (subject) claim as per JWT standard, but also check "user_id" for backward compatibility
+    user_id = payload.get("sub") or payload.get("user_id")
+    
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token payload",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Fetch user from database
+    user = db.query(User).filter(User.user_id == user_id).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Check if user account is active
+    if not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User account is inactive"
+        )
+    
+    return user

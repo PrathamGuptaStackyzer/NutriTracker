@@ -1,0 +1,518 @@
+/* ============================================
+   NutriTracker.ai - Onboarding Styles
+   Green theme with slide transitions
+   
+   Note: Global styles (CSS variables, resets) are in base.css
+   ============================================ */
+
+/* ============================================
+   Onboarding Body Styles
+   ============================================ */
+
+body {
+    background: linear-gradient(135deg, var(--bg-light-green) 0%, var(--bg-green-tint) 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================
+   Progress Bar Container
+   ============================================ */
+
+.progress-container {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.progress {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar {
+    transition: width 0.5s ease;
+}
+
+/* ============================================
+   Onboarding Container
+   ============================================ */
+
+.onboarding-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+/* ============================================
+   Slide System
+   ============================================ */
+
+.slide {
+    display: none;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.slide.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+    animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-content {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Slide Headers
+   ============================================ */
+
+.goal-icon {
+    font-size: 64px;
+    color: var(--primary-green);
+    margin-bottom: 20px;
+}
+
+.slide-title {
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.slide-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+/* ============================================
+   Goal Cards (Slide 1)
+   ============================================ */
+
+.goal-card {
+    background: white;
+    border: 3px solid #E0E0E0;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    height: 100%;
+    position: relative;
+}
+
+.goal-card:hover {
+    border-color: var(--secondary-green);
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-5px);
+}
+
+.goal-card.selected {
+    border-color: var(--primary-green);
+    background: linear-gradient(135deg, #F1F8E9 0%, #E8F5E9 100%);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.25);
+}
+
+.goal-card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--primary-green-light) 0%, var(--primary-green) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    transition: transform var(--transition-speed) ease;
+}
+
+.goal-card:hover .goal-card-icon {
+    transform: scale(1.1);
+}
+
+.goal-card h4 {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.goal-card p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.goal-badge {
+    display: inline-block;
+    background: var(--primary-green);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.goal-card.selected .goal-badge {
+    background: var(--primary-green-dark);
+}
+
+/* ============================================
+   Metrics Form (Slide 2)
+   ============================================ */
+
+.metrics-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-label {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: border-color var(--transition-speed) ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.15);
+}
+
+.form-text {
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* ============================================
+   Results Cards (Slide 3)
+   ============================================ */
+
+.result-card {
+    background: white;
+    border: 2px solid #E0E0E0;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    transition: all var(--transition-speed) ease;
+    height: 100%;
+}
+
+.result-card:hover {
+    border-color: var(--secondary-green);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.result-label {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+
+.result-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.result-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* BMI Category Colors */
+.result-badge.underweight {
+    background-color: #FFF9C4;
+    color: #F57F17;
+}
+
+.result-badge.normal {
+    background-color: #C8E6C9;
+    color: var(--primary-green-dark);
+}
+
+.result-badge.overweight {
+    background-color: #FFE0B2;
+    color: #E65100;
+}
+
+.result-badge.obese {
+    background-color: #FFCDD2;
+    color: #C62828;
+}
+
+.result-description {
+    color: var(--text-dark);
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* ============================================
+   Profile Summary (Slide 3)
+   ============================================ */
+
+.profile-summary {
+    background: var(--background-light);
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.profile-summary h5 {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.profile-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.profile-value {
+    color: var(--primary-green);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* ============================================
+   Navigation Buttons
+   ============================================ */
+
+.slide-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #E0E0E0;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition-speed) ease;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--primary-green-light) 0%, var(--primary-green) 100%);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+.btn-success:disabled {
+    background: #BDBDBD;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-outline-secondary {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   Loading Overlay
+   ============================================ */
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(27, 94, 32, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-overlay .spinner-border {
+    width: 4rem;
+    height: 4rem;
+}
+
+/* ============================================
+   Alerts
+   ============================================ */
+
+.alert {
+    border-radius: 10px;
+    padding: 15px 20px;
+}
+
+.alert-danger {
+    background-color: #FFEBEE;
+    border: 1px solid #FFCDD2;
+    color: #C62828;
+}
+
+.alert-success {
+    background-color: #E8F5E9;
+    border: 1px solid #C8E6C9;
+    color: var(--primary-green-dark);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    .onboarding-container {
+        margin: 30px auto;
+        padding: 15px;
+    }
+
+    .slide-content {
+        padding: 30px 20px;
+    }
+
+    .slide-title {
+        font-size: 1.5rem;
+    }
+
+    .slide-subtitle {
+        font-size: 1rem;
+    }
+
+    .goal-icon {
+        font-size: 48px;
+    }
+
+    .goal-card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    .goal-card h4 {
+        font-size: 1.1rem;
+    }
+
+    .goal-card p {
+        font-size: 0.85rem;
+    }
+
+    .result-value {
+        font-size: 2.5rem;
+    }
+
+    .slide-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .slide-footer .btn {
+        width: 100%;
+    }
+
+    .profile-item {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .progress-container .row {
+        font-size: 0.9rem;
+    }
+
+    .goal-card {
+        padding: 20px 15px;
+    }
+
+    .result-card {
+        padding: 20px;
+    }
+
+    .profile-summary {
+        padding: 20px;
+    }
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
