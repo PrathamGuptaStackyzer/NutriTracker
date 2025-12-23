@@ -314,8 +314,12 @@ function hideLoading() {
 }
 
 function showMessage(message, type = 'info') {
-    // Simple console log for now
-    console.log(`[${type.toUpperCase()}] ${message}`);
+    // Use the global toast notification system
+    if (typeof showToast === 'function') {
+        showToast(message, type);
+    } else {
+        console.log(`[${type.toUpperCase()}] ${message}`);
+    }
 }
 
 // ============================================

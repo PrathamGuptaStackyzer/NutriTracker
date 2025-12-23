@@ -100,8 +100,8 @@ async function loadProfileData() {
         if (!token) {
             // No token found, redirect to login
             console.error('No authentication token found');
-            alert('Session expired. Please login again.');
-            window.location.href = 'index.html';
+            if (typeof showToast === 'function') showToast('Session expired. Please login again.', 'error');
+            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
             return;
         }
         
@@ -122,8 +122,8 @@ async function loadProfileData() {
                 // Unauthorized - token expired or invalid
                 const errorData = await response.json().catch(() => ({}));
                 console.error('❌ 401 Error:', errorData);
-                alert('Session expired. Please login again.');
-                window.location.href = 'index.html';
+                if (typeof showToast === 'function') showToast('Session expired. Please login again.', 'error');
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
                 return;
             }
             throw new Error(`Failed to load profile: ${response.status}`);
@@ -206,7 +206,7 @@ function updateStatsDisplay(data) {
     // ========== WEIGHT CHANGE CARD ==========
     // This would come from tracking data (future feature)
     // For now, show placeholder
-    document.getElementById('weightChangeValue').textContent = '-2.3 kg';
+    document.getElementById('weightChangeValue').textContent = '0 kg';
 }
 
 // ============================================
@@ -539,19 +539,19 @@ function logout() {
 
 // ============================================
 // NOTIFICATION HELPERS
-// Show success/error messages to user
+// Show success/error messages to user using toast
 // ============================================
 function showSuccess(message) {
-    // Create a simple alert for now
-    // In production, use a toast notification library
-    alert('✅ ' + message);
+    if (typeof showToast === 'function') {
+        showToast(message, 'success');
+    }
     console.log('✅', message);
 }
 
 function showError(message) {
-    // Create a simple alert for now
-    // In production, use a toast notification library
-    alert('❌ ' + message);
+    if (typeof showToast === 'function') {
+        showToast(message, 'error');
+    }
     console.error('❌', message);
 }
 

@@ -45,6 +45,31 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     - Auto-login after registration
     - Returns JWT token
     """
+    # Validate full name - required and alphanumeric
+    if not request.full_name or not request.full_name.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Full Name is required"
+        )
+    
+    full_name = request.full_name.strip()
+    
+    # Validate full name length (2-50 characters)
+    if len(full_name) < 2 or len(full_name) > 50:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Full Name must be 2-50 characters"
+        )
+    
+    # Validate full name format (alphanumeric + spaces only)
+    import re
+    name_pattern = r'^[a-zA-Z0-9][a-zA-Z0-9\s]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$'
+    if not re.match(name_pattern, full_name):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Full Name can only contain letters, numbers, and spaces"
+        )
+    
     # Validate email format
     if not is_valid_email(request.email):
         raise HTTPException(
@@ -74,7 +99,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     # Create new user
     hashed_pw = hash_password(request.password)
     new_user = User(
-        full_name=request.full_name,
+        full_name=full_name,  # Use validated and trimmed full_name
         email=email,
         password_hash=hashed_pw
     )

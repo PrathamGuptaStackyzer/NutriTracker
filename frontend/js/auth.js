@@ -109,6 +109,22 @@ async function handleSignup() {
     const password = document.getElementById('signupPassword').value;
     
     // Basic validation
+    if (!fullName) {
+        showAlert('Full Name is required', 'danger');
+        return;
+    }
+    
+    // Validate full name format (alphanumeric + spaces, 2-50 chars)
+    if (fullName.length < 2 || fullName.length > 50) {
+        showAlert('Full Name must be 2-50 characters', 'danger');
+        return;
+    }
+    
+    const namePattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$/;
+    if (!namePattern.test(fullName)) {
+        showAlert('Full Name can only contain letters, numbers, and spaces', 'danger');
+        return;
+    }
     
     if (!email || !password) {
         showAlert('Email and password are required', 'danger');
@@ -399,29 +415,16 @@ function startResendTimer() {
 }
 
 // ============================================
-// Show Alert Message
+// Show Alert Message (using toast system)
 // ============================================
 function showAlert(message, type = 'info') {
-    // Remove any existing alerts
-    const existingAlert = document.querySelector('.alert');
-    if (existingAlert) {
-        existingAlert.remove();
+    // Use the global toast system
+    if (typeof showToast === 'function') {
+        showToast(message, type);
+    } else {
+        // Fallback to console if toast not loaded
+        console.log(`[${type.toUpperCase()}] ${message}`);
     }
-    
-    // Create alert element
-    const alert = document.createElement('div');
-    alert.className = `alert alert-${type}`;
-    alert.textContent = message;
-    
-    // Insert at the top of active form
-    const activeForm = document.querySelector('.auth-form[style*="display: block"]') || 
-                       document.getElementById('loginForm');
-    activeForm.insertBefore(alert, activeForm.firstChild);
-    
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-        alert.remove();
-    }, 5000);
 }
 
 // ============================================

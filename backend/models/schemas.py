@@ -13,7 +13,7 @@ from typing import Optional
 
 class RegisterRequest(BaseModel):
     """Request model for user registration"""
-    full_name: Optional[str] = None
+    full_name: str  # Required - cannot be null or empty
     email: str
     password: str
 
