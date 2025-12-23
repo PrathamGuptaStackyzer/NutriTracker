@@ -14,7 +14,8 @@
 // ============================================
 // CONFIGURATION
 // ============================================
-const API_BASE = 'http://localhost:8000';
+// Dynamic API URL - works for localhost and network sharing
+const API_BASE = `${window.location.protocol}//${window.location.host}`;
 
 // Store current user data globally
 let currentProfile = null;

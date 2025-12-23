@@ -6,7 +6,8 @@
 // ============================================
 // Configuration
 // ============================================
-const API_BASE_URL = 'http://localhost:8000'; // Backend API URL
+// Dynamic API URL - works for localhost and network sharing
+const API_BASE_URL = `${window.location.protocol}//${window.location.host}`;
 
 // Store email for password reset flow
 let resetEmail = '';
