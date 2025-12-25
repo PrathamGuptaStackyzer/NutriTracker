@@ -67,6 +67,7 @@ class ProfileStatusResponse(BaseModel):
     """Response for profile completion status"""
     complete: bool
     last_slide: int
+    goal: Optional[str] = None  # Include saved goal for resume functionality
 
 
 class GoalRequest(BaseModel):

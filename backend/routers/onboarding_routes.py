@@ -50,14 +50,17 @@ def get_profile_status(db: Session = Depends(get_db)):
         # Determine last slide
         if not profile:
             last_slide = 1  # Start from goal selection
+            saved_goal = None
         elif not profile.goal:
             last_slide = 1
+            saved_goal = None
         else:
             last_slide = 2  # Has goal but incomplete metrics
+            saved_goal = profile.goal
         
-        return ProfileStatusResponse(complete=False, last_slide=last_slide)
+        return ProfileStatusResponse(complete=False, last_slide=last_slide, goal=saved_goal)
     
-    return ProfileStatusResponse(complete=True, last_slide=3)
+    return ProfileStatusResponse(complete=True, last_slide=3, goal=profile.goal)
 
 
 # ============================================
@@ -116,7 +119,7 @@ def save_goal(request: GoalRequest, db: Session = Depends(get_db)):
 
 
 # ============================================
-# POST /api/onboarding/metrics
+# POST /api/onboarding/metrics  
 # ============================================
 @router.post("/onboarding/metrics", response_model=ProfileResponse)
 def save_metrics(request: MetricsRequest, db: Session = Depends(get_db)):

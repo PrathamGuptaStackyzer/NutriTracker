@@ -42,6 +42,20 @@ async function checkOnboardingStatus() {
             } else {
                 // Resume from last slide
                 console.log(`Resuming from slide ${data.last_slide}`);
+                
+                // If resuming from slide 2, fetch the saved goal
+                if (data.last_slide >= 2 && data.goal) {
+                    selectedGoal = data.goal;
+                    console.log(`Restored goal: ${selectedGoal}`);
+                    
+                    // Update UI to show selected goal
+                    const goalCard = document.querySelector(`.goal-card[data-goal="${selectedGoal}"]`);
+                    if (goalCard) {
+                        goalCard.classList.add('selected');
+                    }
+                    document.getElementById('slide1Next').disabled = false;
+                }
+                
                 goToSlide(data.last_slide);
             }
         } else {
@@ -159,20 +173,37 @@ async function saveGoal(goal) {
 
 function validateMetricsForm() {
     const gender = document.getElementById('gender').value;
-    const age = parseInt(document.getElementById('age').value);
-    const height = parseFloat(document.getElementById('height').value);
-    const weight = parseFloat(document.getElementById('weight').value);
+    const ageValue = document.getElementById('age').value;
+    const heightValue = document.getElementById('height').value;
+    const weightValue = document.getElementById('weight').value;
     const activityLevel = document.getElementById('activityLevel').value;
     
-    // Check all fields are filled
-    if (!gender || !age || !height || !weight || !activityLevel) {
+    // Check if goal is selected
+    if (!selectedGoal) {
+        showError('Please go back and select a goal first');
+        return null;
+    }
+    
+    // Check all fields are filled (check raw values first)
+    if (!gender || !ageValue || !heightValue || !weightValue || !activityLevel) {
         showError('Please fill in all fields');
         return null;
     }
     
-    // Validate age
-    if (age < 13 || age > 120) {
-        showError('Age must be between 13 and 120 years');
+    // Parse numeric values
+    const age = parseInt(ageValue, 10);
+    const height = parseFloat(heightValue);
+    const weight = parseFloat(weightValue);
+    
+    // Check for NaN (invalid number input)
+    if (isNaN(age) || isNaN(height) || isNaN(weight)) {
+        showError('Please enter valid numbers for age, height, and weight');
+        return null;
+    }
+    
+    // Validate age (backend requires 18-100)
+    if (age < 18 || age > 100) {
+        showError('Age must be between 18 and 100 years');
         return null;
     }
     
@@ -191,14 +222,19 @@ function validateMetricsForm() {
     // All valid
     hideError();
     
-    return {
+    const metricsData = {
         goal: selectedGoal,
-        gender,
-        age,
+        gender: gender,
+        age: age,
         height_cm: height,
         weight_kg: weight,
         activity_level: activityLevel
     };
+    
+    // Debug log to verify data before sending
+    console.log('📤 Sending metrics:', JSON.stringify(metricsData, null, 2));
+    
+    return metricsData;
 }
 
 function showError(message) {
@@ -253,7 +289,31 @@ async function calculateProfile() {
         } else {
             const error = await response.json();
             hideLoading();
-            showError(error.detail || 'Failed to calculate profile');
+            
+            // Log the full error for debugging
+            console.error('❌ API Error Response:', JSON.stringify(error, null, 2));
+            
+            // Handle different error formats
+            let errorMessage = 'Failed to calculate profile. ';
+            if (error.detail) {
+                if (typeof error.detail === 'string') {
+                    errorMessage += error.detail;
+                } else if (Array.isArray(error.detail)) {
+                    // Pydantic validation error - format nicely
+                    const errors = error.detail.map(e => {
+                        const field = e.loc ? e.loc.join('.') : 'unknown';
+                        const msg = e.msg || 'validation error';
+                        return `${field}: ${msg}`;
+                    });
+                    errorMessage += errors.join('; ');
+                } else if (typeof error.detail === 'object') {
+                    errorMessage += JSON.stringify(error.detail);
+                } else {
+                    errorMessage += String(error.detail);
+                }
+            }
+            
+            showError(errorMessage);
         }
     } catch (error) {
         console.error('Error calculating profile:', error);
