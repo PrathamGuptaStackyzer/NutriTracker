@@ -79,7 +79,7 @@ async function handleLogin() {
         if (response.ok) {
             // Login successful
             // Store JWT token in localStorage
-            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('token', data.access_token);
             
             showAlert('Login successful! Redirecting...', 'success');
             
@@ -171,7 +171,7 @@ async function handleSignup() {
         if (response.ok) {
             // Registration successful
             // Store JWT token in localStorage
-            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('token', data.access_token);
             
             showAlert('Account created! Let\'s set up your profile...', 'success');
             
@@ -432,7 +432,7 @@ function showAlert(message, type = 'info') {
 // ============================================
 window.addEventListener('DOMContentLoaded', () => {
     // Check if JWT token exists
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     
     if (token) {
         // User is already logged in - could verify token here
@@ -448,7 +448,10 @@ window.addEventListener('DOMContentLoaded', () => {
 // ============================================
 async function checkOnboardingAndRedirect() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/profile/status`);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_BASE_URL}/api/profile/status`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
         
         if (response.ok) {
             const data = await response.json();

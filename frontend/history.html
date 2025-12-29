@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - NutriTracker.ai</title>
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    
+    <!-- Dark Mode Script -->
+    <script src="js/dark-mode.js"></script>
+    
+    <style>
+        body {
+            background: #f5f6fa;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .meals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .meal-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .meal-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .meal-header h4 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .btn-delete {
+            background: #ffebee;
+            color: #f44336;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-delete:hover {
+            background: #f44336;
+            color: white;
+        }
+        
+        .meal-date {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        
+        .meal-items {
+            color: #34495e;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .meal-macros {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .meal-macros span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .meal-macros i {
+            color: #4CAF50;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a5a6;
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #7f8c8d;
+        }
+        
+        .empty-state p {
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="page-title">
+        <i class="fas fa-history me-2"></i>Meal History
+    </h2>
+    
+    <div id="meals-list" class="meals-list">
+        <div class="empty-state">
+            <i class="fas fa-utensils"></i>
+            <h3>No Meals Yet</h3>
+            <p>Start adding meals to see your history here</p>
+        </div>
+    </div>
+
+    <script>
+        function loadMealHistory() {
+            const meals = JSON.parse(localStorage.getItem('meals')) || [];
+            const mealsList = document.getElementById('meals-list');
+            
+            if (meals.length === 0) {
+                mealsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-utensils"></i>
+                        <h3>No Meals Yet</h3>
+                        <p>Start adding meals to see your history here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort meals by date (newest first)
+            const sortedMeals = [...meals].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            mealsList.innerHTML = sortedMeals.map(meal => {
+                const date = new Date(meal.date);
+                const formattedDate = date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                return `
+                    <div class="meal-card">
+                        <div class="meal-header">
+                            <h4>${meal.name}</h4>
+                            <button class="btn-delete" onclick="deleteMeal(${meal.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <p class="meal-date">${formattedDate}</p>
+                        <p class="meal-items">${meal.foodItems}</p>
+                        <div class="meal-macros">
+                            <span><i class="fas fa-fire"></i> ${meal.calories} cal</span>
+                            <span><i class="fas fa-drumstick-bite"></i> ${meal.protein}g protein</span>
+                            <span><i class="fas fa-bread-slice"></i> ${meal.carbs}g carbs</span>
+                            <span><i class="fas fa-cheese"></i> ${meal.fats}g fats</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function deleteMeal(mealId) {
+            if (confirm('Are you sure you want to delete this meal?')) {
+                let meals = JSON.parse(localStorage.getItem('meals')) || [];
+                meals = meals.filter(meal => meal.id !== mealId);
+                localStorage.setItem('meals', JSON.stringify(meals));
+                loadMealHistory();
+                
+                // Notify parent window
+                if (window.parent !== window) {
+                    window.parent.postMessage('mealDeleted', '*');
+                }
+            }
+        }
+        
+        // Load history on page load
+        loadMealHistory();
+        
+        // Listen for updates from other tabs/iframes
+        window.addEventListener('storage', loadMealHistory);
+        window.addEventListener('message', function(e) {
+            if (e.data === 'updateHistory') {
+                loadMealHistory();
+            }
+        });
+    </script>
+</body>
+</html>

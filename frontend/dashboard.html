@@ -12,6 +12,10 @@
     <!-- Your global + dashboard styles -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    
+    <!-- Dark Mode Script (runs before page loads) -->
+    <script src="js/dark-mode.js"></script>
 </head>
 <body>
 
@@ -31,23 +35,33 @@
     <div class="main-container">
         <!-- Sidebar Navigation -->
         <div class="sidebar">
-            <div class="sidebar-item active">
+            <div class="sidebar-item active" data-page="overview">
                 <i class="fas fa-home"></i><span>Overview</span>
             </div>
-            <div class="sidebar-item">
+            <div class="sidebar-item" data-page="add-meal">
                 <i class="fas fa-plus-circle"></i><span>Add Meal</span>
             </div>
-            <div class="sidebar-item">
+            <div class="sidebar-item" data-page="history">
                 <i class="fas fa-history"></i><span>History</span>
             </div>
-            <a href="profile.html" class="sidebar-item">
+            <div class="sidebar-item" data-page="profile">
                 <i class="fas fa-user"></i><span>User Profile</span>
-            </a>
+            </div>
         </div>
 
-        <!-- Content Area - You can add your own pages here later -->
-        <div class="content-area">
-            <!-- Your future content goes here -->
+        <!-- Content Area -->
+        <div class="content-area" id="content-area">
+            <!-- Overview Page (iframe) -->
+            <iframe id="overview-iframe" src="overview.html" class="page-iframe active"></iframe>
+            
+            <!-- Add Meal Page (iframe) -->
+            <iframe id="add-meal-iframe" src="add-meal.html" class="page-iframe"></iframe>
+            
+            <!-- History Page (iframe) -->
+            <iframe id="history-iframe" src="history.html" class="page-iframe"></iframe>
+            
+            <!-- Profile Page (iframe) -->
+            <iframe id="profile-iframe" src="profile.html" class="page-iframe"></iframe>
         </div>
     </div>
 

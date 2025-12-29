@@ -1,0 +1,296 @@
+/**
+ * Dark Mode Styles - Shared across all pages
+ * This CSS handles dark mode for all pages in NutriTracker
+ */
+
+/* Dark Mode Variables */
+.dark-mode {
+    --bg-light: #1a1a1a;
+    --bg-white: #2d2d2d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #888888;
+    --border-color: #404040;
+    --card-bg: #2d2d2d;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --hover-bg: #3a3a3a;
+}
+
+/* Body Dark Mode */
+body.dark-mode {
+    background: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+/* Page Titles */
+.dark-mode .page-title {
+    color: #e0e0e0 !important;
+}
+
+/* Cards */
+.dark-mode .stat-card,
+.dark-mode .meal-card,
+.dark-mode .meal-form-card {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark-mode .stat-card:hover,
+.dark-mode .meal-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Stat Info */
+.dark-mode .stat-info h3 {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .stat-info p {
+    color: #b0b0b0 !important;
+}
+
+/* Form Elements */
+.dark-mode .form-label {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .form-control {
+    background: #3a3a3a !important;
+    border-color: #555 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .form-control:focus {
+    background: #3a3a3a !important;
+    border-color: #4CAF50 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .form-control::placeholder {
+    color: #888888 !important;
+}
+
+/* Meal Card Elements */
+.dark-mode .meal-header h4 {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .meal-date {
+    color: #b0b0b0 !important;
+}
+
+.dark-mode .meal-items {
+    color: #d0d0d0 !important;
+}
+
+.dark-mode .meal-macros span {
+    color: #b0b0b0 !important;
+}
+
+/* Empty State */
+.dark-mode .empty-state {
+    color: #888888 !important;
+}
+
+.dark-mode .empty-state h3 {
+    color: #b0b0b0 !important;
+}
+
+/* Success Message */
+.dark-mode .success-message {
+    background: #1b4d1b !important;
+    color: #81c784 !important;
+}
+
+/* Profile Specific */
+.dark-mode .profile-header {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .profile-tabs .tab-btn {
+    color: #b0b0b0 !important;
+}
+
+.dark-mode .profile-tabs .tab-btn.active {
+    color: #4CAF50 !important;
+    background: #3a3a3a !important;
+}
+
+.dark-mode .profile-tabs .tab-btn:hover {
+    background: #3a3a3a !important;
+}
+
+.dark-mode .tab-content-section {
+    background: #2d2d2d !important;
+}
+
+.dark-mode .input-with-icon input {
+    background: #3a3a3a !important;
+    border-color: #555 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .input-with-icon .icon {
+    color: #888888 !important;
+}
+
+.dark-mode .stat-box {
+    background: #3a3a3a !important;
+}
+
+.dark-mode .stat-box h4 {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .stat-box p {
+    color: #b0b0b0 !important;
+}
+
+.dark-mode .activity-card {
+    background: #3a3a3a !important;
+    border-color: #555 !important;
+}
+
+.dark-mode .activity-card.active {
+    background: #1b4d1b !important;
+    border-color: #4CAF50 !important;
+}
+
+.dark-mode .activity-card h5 {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .activity-card p {
+    color: #b0b0b0 !important;
+}
+
+.dark-mode .setting-item {
+    border-bottom: 1px solid #404040 !important;
+}
+
+.dark-mode .setting-item h5 {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .setting-item p {
+    color: #b0b0b0 !important;
+}
+
+/* Dashboard Sidebar */
+.dark-mode .sidebar {
+    background: #2d2d2d !important;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Content Area */
+.dark-mode .content-area {
+    background: #1a1a1a !important;
+}
+
+.dark-mode .sidebar-item {
+    color: #b0b0b0 !important;
+}
+
+.dark-mode .sidebar-item:hover {
+    background: #3a3a3a !important;
+    color: #4CAF50 !important;
+}
+
+.dark-mode .sidebar-item.active {
+    background: #1b4d1b !important;
+    color: #4CAF50 !important;
+}
+
+/* Navbar */
+.dark-mode .navbar {
+    background: linear-gradient(135deg, #53a553 0%, #1b3d1b 100%) !important;
+}
+
+/* Welcome Card */
+.dark-mode .welcome-card {
+    background: linear-gradient(135deg, #56a856, #1b3d1b) !important;
+}
+
+/* Buttons */
+.dark-mode .btn-delete {
+    background: #4a2020 !important;
+    color: #ef5350 !important;
+}
+
+.dark-mode .btn-delete:hover {
+    background: #ef5350 !important;
+    color: white !important;
+}
+
+/* Select Dropdown */
+.dark-mode select.form-control {
+    background: #3a3a3a !important;
+    border-color: #555 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode select.form-control option {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+}
+
+/* Text Areas */
+.dark-mode textarea.form-control {
+    background: #3a3a3a !important;
+    border-color: #555 !important;
+    color: #e0e0e0 !important;
+}
+
+/* User Avatar */
+.dark-mode .user-avatar {
+    background: #3a3a3a !important;
+    border-color: #555 !important;
+}
+
+.dark-mode .user-name {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .user-email {
+    color: #b0b0b0 !important;
+}
+
+/* Profile Info Text */
+.dark-mode .profile-info-text {
+    color: #b0b0b0 !important;
+}
+
+/* Edit Button */
+.dark-mode .btn-edit-profile {
+    background: #3a3a3a !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #555 !important;
+}
+
+.dark-mode .btn-edit-profile:hover {
+    background: #4a4a4a !important;
+}
+
+/* Small Text */
+.dark-mode .small,
+.dark-mode small {
+    color: #888888 !important;
+}
+
+/* Muted Text */
+.dark-mode .text-muted {
+    color: #888888 !important;
+}
+
+/* Hr Lines */
+.dark-mode hr {
+    border-color: #404040 !important;
+}
+
+/* Badge Styles */
+.dark-mode .badge-streak {
+    background: #1b4d1b !important;
+    color: #81c784 !important;
+}

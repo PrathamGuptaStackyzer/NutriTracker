@@ -75,3 +75,53 @@
 .btn-logout:hover {
     background: #c82333;
 }
+
+/* Page Iframes */
+.page-iframe {
+    display: none;
+    width: 100%;
+    height: calc(100vh - 90px);
+    border: none;
+    border-radius: 12px;
+    background: white;
+}
+
+.page-iframe.active {
+    display: block;
+}
+
+/* Remove old page-content styles as we're using iframes now */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    
+    .sidebar-item span {
+        display: none;
+    }
+    
+    .sidebar-item {
+        justify-content: center;
+        padding: 15px 10px;
+    }
+    
+    .sidebar-item i {
+        margin-right: 0;
+    }
+    
+    .content-area {
+        margin-left: 70px;
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .meal-macros {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

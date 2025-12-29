@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Meal - NutriTracker.ai</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/add-meal.css">
+    <link rel="stylesheet" href="/css/dark-mode.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- ============================================
+         PAGE CONTAINER
+    ============================================ -->
+    <div class="addmeal-container">
+        
+        <!-- ============================================
+             SECTION 1: AI UPLOAD (Top)
+        ============================================ -->
+        <section class="section ai-upload-section" id="aiUploadSection">
+            <div class="section-header">
+                <h2><i class="fas fa-camera"></i> AI Food Detection</h2>
+                <p class="section-subtitle">Upload a photo and let AI detect your meal</p>
+            </div>
+            
+            <div class="ai-upload-card">
+                <!-- Image Upload Area -->
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="foodImageInput" accept="image/*" hidden>
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <p class="upload-text">Click or drag image here</p>
+                        <p class="upload-hint">Supports JPG, PNG (Max 5MB)</p>
+                    </div>
+                </div>
+                
+                <!-- Image Preview -->
+                <div class="image-preview-container" id="imagePreviewContainer" style="display: none;">
+                    <img id="imagePreview" src="" alt="Food preview">
+                    <button class="btn-remove-image" id="btnRemoveImage">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- AI Detection Button -->
+                <button class="btn btn-primary btn-detect" id="btnDetectFood" disabled>
+                    <i class="fas fa-magic"></i> Detect Food
+                </button>
+                
+                <!-- Loading State -->
+                <div class="ai-loading" id="aiLoading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>AI is analyzing your food...</p>
+                </div>
+                
+                <!-- AI Results -->
+                <div class="ai-results" id="aiResults" style="display: none;">
+                    <div class="result-header">
+                        <i class="fas fa-check-circle"></i>
+                        <span>AI Detection Complete!</span>
+                    </div>
+                    <div class="result-content">
+                        <p><strong>Detected:</strong> <span id="aiMealName"></span></p>
+                        <p><strong>Confidence:</strong> <span id="aiConfidence"></span></p>
+                    </div>
+                    <button class="btn btn-success" id="btnUseAIResults">
+                        <i class="fas fa-arrow-down"></i> Use These Results
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 2: MANUAL ENTRY (Core Engine)
+        ============================================ -->
+        <section class="section manual-entry-section" id="manualEntrySection">
+            <div class="section-header">
+                <h2><i class="fas fa-utensils"></i> Log Meal</h2>
+                <p class="section-subtitle">The only section that actually logs meals</p>
+            </div>
+            
+            <div class="manual-entry-card">
+                <form id="manualEntryForm">
+                    <!-- Meal Type Selection -->
+                    <div class="form-group">
+                        <label for="mealType">
+                            <i class="fas fa-clock"></i> Meal Type *
+                        </label>
+                        <select id="mealType" name="meal_type" required>
+                            <option value="">Select meal type</option>
+                            <option value="breakfast">🌅 Breakfast</option>
+                            <option value="lunch">☀️ Lunch</option>
+                            <option value="dinner">🌙 Dinner</option>
+                            <option value="snack">🍎 Snack</option>
+                        </select>
+                    </div>
+
+                    <!-- Meal Name -->
+                    <div class="form-group">
+                        <label for="mealName">
+                            <i class="fas fa-tag"></i> Meal Name *
+                        </label>
+                        <input 
+                            type="text" 
+                            id="mealName" 
+                            name="meal_name" 
+                            placeholder="e.g., Chicken Caesar Salad"
+                            required
+                        >
+                    </div>
+
+                    <!-- Macros Grid -->
+                    <div class="macros-grid">
+                        <!-- Calories -->
+                        <div class="form-group">
+                            <label for="calories">
+                                <i class="fas fa-fire"></i> Calories *
+                            </label>
+                            <input 
+                                type="number" 
+                                id="calories" 
+                                name="calories" 
+                                placeholder="0"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <!-- Protein -->
+                        <div class="form-group">
+                            <label for="protein">
+                                <i class="fas fa-drumstick-bite"></i> Protein (g) *
+                            </label>
+                            <input 
+                                type="number" 
+                                id="protein" 
+                                name="protein_g" 
+                                placeholder="0.0"
+                                step="0.1"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <!-- Carbs -->
+                        <div class="form-group">
+                            <label for="carbs">
+                                <i class="fas fa-bread-slice"></i> Carbs (g) *
+                            </label>
+                            <input 
+                                type="number" 
+                                id="carbs" 
+                                name="carbs_g" 
+                                placeholder="0.0"
+                                step="0.1"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <!-- Fat -->
+                        <div class="form-group">
+                            <label for="fat">
+                                <i class="fas fa-cheese"></i> Fat (g) *
+                            </label>
+                            <input 
+                                type="number" 
+                                id="fat" 
+                                name="fat_g" 
+                                placeholder="0.0"
+                                step="0.1"
+                                min="0"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="form-group">
+                        <label for="notes">
+                            <i class="fas fa-comment"></i> Notes (Optional)
+                        </label>
+                        <textarea 
+                            id="notes" 
+                            name="notes" 
+                            rows="3"
+                            placeholder="Any additional details..."
+                        ></textarea>
+                    </div>
+
+                    <!-- Hidden Fields -->
+                    <input type="hidden" id="mealSource" name="source" value="manual">
+                    <input type="hidden" id="imageUrl" name="image_url">
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="btnSaveAsPreset">
+                            <i class="fas fa-bookmark"></i> Save as Preset
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Log Meal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 3: USER PRESET MEALS
+        ============================================ -->
+        <section class="section user-presets-section" id="userPresetsSection">
+            <div class="section-header">
+                <h2><i class="fas fa-bookmark"></i> Your Meal Presets</h2>
+                <p class="section-subtitle">Quick templates you've saved</p>
+            </div>
+            
+            <div class="presets-grid" id="userPresetsGrid">
+                <!-- User preset cards will be dynamically loaded here -->
+                <div class="empty-state" id="userPresetsEmpty">
+                    <i class="fas fa-bookmark"></i>
+                    <p>No presets saved yet</p>
+                    <p class="hint">Log a meal and click "Save as Preset"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 4: ADMIN SUGGESTIONS
+        ============================================ -->
+        <section class="section admin-suggestions-section" id="adminSuggestionsSection">
+            <div class="section-header">
+                <h2><i class="fas fa-star"></i> Suggested Meals</h2>
+                <p class="section-subtitle">Curated meal ideas from our nutritionists</p>
+            </div>
+            
+            <div class="presets-grid" id="adminSuggestionsGrid">
+                <!-- Admin preset cards will be dynamically loaded here -->
+                <div class="empty-state" id="adminSuggestionsEmpty">
+                    <i class="fas fa-star"></i>
+                    <p>No suggestions available</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 5: TODAY'S MEAL HISTORY
+        ============================================ -->
+        <section class="section today-history-section" id="todayHistorySection">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Today's Meals</h2>
+                <p class="section-subtitle">Daily meal log (resets at midnight)</p>
+            </div>
+            
+            <!-- Summary Cards -->
+            <div class="summary-cards" id="todaySummary">
+                <div class="summary-card">
+                    <div class="summary-icon">🔥</div>
+                    <div class="summary-content">
+                        <p class="summary-label">Calories</p>
+                        <p class="summary-value" id="summaryCalories">0</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">🥩</div>
+                    <div class="summary-content">
+                        <p class="summary-label">Protein</p>
+                        <p class="summary-value" id="summaryProtein">0g</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">🍞</div>
+                    <div class="summary-content">
+                        <p class="summary-label">Carbs</p>
+                        <p class="summary-value" id="summaryCarbs">0g</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">🧈</div>
+                    <div class="summary-content">
+                        <p class="summary-label">Fat</p>
+                        <p class="summary-value" id="summaryFat">0g</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meals by Type -->
+            <div class="meals-by-type">
+                <!-- Breakfast -->
+                <div class="meal-type-group">
+                    <h3 class="meal-type-header">🌅 Breakfast</h3>
+                    <div class="meals-list" id="breakfastMeals">
+                        <p class="empty-message">No breakfast logged yet</p>
+                    </div>
+                </div>
+
+                <!-- Lunch -->
+                <div class="meal-type-group">
+                    <h3 class="meal-type-header">☀️ Lunch</h3>
+                    <div class="meals-list" id="lunchMeals">
+                        <p class="empty-message">No lunch logged yet</p>
+                    </div>
+                </div>
+
+                <!-- Dinner -->
+                <div class="meal-type-group">
+                    <h3 class="meal-type-header">🌙 Dinner</h3>
+                    <div class="meals-list" id="dinnerMeals">
+                        <p class="empty-message">No dinner logged yet</p>
+                    </div>
+                </div>
+
+                <!-- Snacks -->
+                <div class="meal-type-group">
+                    <h3 class="meal-type-header">🍎 Snacks</h3>
+                    <div class="meals-list" id="snackMeals">
+                        <p class="empty-message">No snacks logged yet</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ============================================
+         TOAST NOTIFICATION
+    ============================================ -->
+    <div id="toast" class="toast"></div>
+
+    <!-- ============================================
+         SCRIPTS
+    ============================================ -->
+    <script src="/js/dark-mode.js"></script>
+    <script src="/js/add-meal.js"></script>
+</body>
+</html>

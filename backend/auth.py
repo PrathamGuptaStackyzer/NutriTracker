@@ -3,7 +3,7 @@ NutriTracker.ai - Authentication Utilities
 Password hashing, JWT token generation, validation
 """
 
-from passlib.context import CryptContext
+import bcrypt
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from typing import Optional
@@ -37,21 +37,35 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 24 * 60  # 24 hours
 REMEMBER_ME_EXPIRE_DAYS = 30
 
-# Password context for bcrypt
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 # ============================================
 # Password Hashing
 # ============================================
 
 def hash_password(password: str) -> str:
     """Hash a plain password using bcrypt"""
-    return pwd_context.hash(password)
+    # Encode password to bytes and hash
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password_bytes, salt)
+    return hashed.decode('utf-8')
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify a password against its hash"""
-    return pwd_context.verify(plain_password, hashed_password)
+    try:
+        # Try bcrypt verification
+        password_bytes = plain_password.encode('utf-8')
+        hashed_bytes = hashed_password.encode('utf-8')
+        return bcrypt.checkpw(password_bytes, hashed_bytes)
+    except Exception as e:
+        # If bcrypt fails, try passlib for backward compatibility
+        try:
+            from passlib.context import CryptContext
+            pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+            return pwd_context.verify(plain_password, hashed_password)
+        except:
+            print(f"Error verifying password with both methods: {e}")
+            return False
 
 
 # ============================================

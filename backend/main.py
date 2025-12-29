@@ -14,7 +14,7 @@ from database import init_db
 # Import routers
 from routers import auth_routes, onboarding_routes
 from routers import profile_routes  # ← Updated import
-
+from routers.addmeal_routes import router as addmeal_router
 # ============================================
 # FastAPI Application Setup
 # ============================================
@@ -50,6 +50,9 @@ app.mount("/assets", StaticFiles(directory=os.path.join(frontend_path, "assets")
 # Include Routers
 # ============================================
 
+
+
+
 # Module 1: Authentication
 app.include_router(auth_routes.router)
 
@@ -59,6 +62,7 @@ app.include_router(onboarding_routes.router)
 # Module 7: User Profile (now split: logic in profile.py, router here)
 app.include_router(profile_routes.router)
 
+app.include_router(addmeal_router)  # ✅ NEW: Add Meal Module
 # ============================================
 # Database Initialization
 # ============================================
@@ -102,6 +106,27 @@ def serve_profile():
     """Serve the profile.html page"""
     profile_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "profile.html")
     return FileResponse(profile_path)
+
+@app.get("/add-meal")
+@app.get("/add-meal.html")
+def serve_add_meal():
+    """Serve the add-meal.html page"""
+    add_meal_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "add-meal.html")
+    return FileResponse(add_meal_path)
+
+@app.get("/overview")
+@app.get("/overview.html")
+def serve_overview():
+    """Serve the overview.html page"""
+    overview_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "overview.html")
+    return FileResponse(overview_path)
+
+@app.get("/history")
+@app.get("/history.html")
+def serve_history():
+    """Serve the history.html page"""
+    history_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "history.html")
+    return FileResponse(history_path)
 
 # ============================================
 # Health Check

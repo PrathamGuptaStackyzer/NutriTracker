@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview - NutriTracker.ai</title>
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    
+    <!-- Dark Mode Script -->
+    <script src="js/dark-mode.js"></script>
+    
+    <style>
+        body {
+            background: #f5f6fa;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .stat-info h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .stat-info p {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .welcome-card {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+        
+        .welcome-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-card p {
+            margin: 0;
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="page-title">
+        <i class="fas fa-home me-2"></i>Overview
+    </h2>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #E3F2FD;">
+                <i class="fas fa-fire" style="color: #2196F3;"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="total-calories">0</h3>
+                <p>Calories Today</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #FFF3E0;">
+                <i class="fas fa-drumstick-bite" style="color: #FF9800;"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="total-protein">0g</h3>
+                <p>Protein</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #F3E5F5;">
+                <i class="fas fa-bread-slice" style="color: #9C27B0;"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="total-carbs">0g</h3>
+                <p>Carbs</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #FCE4EC;">
+                <i class="fas fa-cheese" style="color: #E91E63;"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="total-fats">0g</h3>
+                <p>Fats</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="welcome-card">
+        <h3>Welcome to NutriTracker.ai! 🎉</h3>
+        <p>Start tracking your nutrition journey today. Click "Add Meal" to log your first meal.</p>
+    </div>
+
+    <script>
+        // Load stats from localStorage
+        function updateStats() {
+            const meals = JSON.parse(localStorage.getItem('meals')) || [];
+            const today = new Date().toDateString();
+            const todayMeals = meals.filter(meal => {
+                const mealDate = new Date(meal.date).toDateString();
+                return mealDate === today;
+            });
+            
+            const totals = todayMeals.reduce((acc, meal) => {
+                acc.calories += meal.calories || 0;
+                acc.protein += meal.protein || 0;
+                acc.carbs += meal.carbs || 0;
+                acc.fats += meal.fats || 0;
+                return acc;
+            }, { calories: 0, protein: 0, carbs: 0, fats: 0 });
+            
+            document.getElementById('total-calories').textContent = totals.calories;
+            document.getElementById('total-protein').textContent = totals.protein + 'g';
+            document.getElementById('total-carbs').textContent = totals.carbs + 'g';
+            document.getElementById('total-fats').textContent = totals.fats + 'g';
+        }
+        
+        // Update stats on load
+        updateStats();
+        
+        // Listen for storage changes from other tabs/iframes
+        window.addEventListener('storage', updateStats);
+        window.addEventListener('message', function(e) {
+            if (e.data === 'updateStats') {
+                updateStats();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -203,6 +203,185 @@ class UserProfile(Base):
 
 
 # ==========================================================================
+# MODEL: MEAL (Logged meals - Source of Truth)
+# ==========================================================================
+class Meal(Base):
+    """
+    Logged meals - The CORE table where actual meal consumption is recorded
+    
+    Fields:
+        meal_id: UUID primary key
+        user_id: Foreign key to users table
+        meal_type: breakfast, lunch, dinner, snack
+        meal_name: User-defined meal name
+        calories: Total calories
+        protein_g: Protein in grams
+        carbs_g: Carbohydrates in grams
+        fat_g: Fat in grams
+        notes: Optional user notes
+        source: How meal was created (manual, ai, user_preset, admin_preset)
+        image_url: Optional food image path
+        logged_at: When meal was logged (for daily reset)
+        created_at: Record creation timestamp
+    
+    Daily Reset Logic:
+        Query: WHERE user_id = X AND DATE(logged_at) = TODAY
+        Data is NOT deleted - just filtered by date for "today's meals"
+    """
+    __tablename__ = "meals"
+    
+    meal_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.user_id"), nullable=False)
+    
+    # Meal type - determines which section it appears in
+    meal_type = Column(String(20), nullable=False)  # breakfast, lunch, dinner, snack
+    
+    # Meal identification
+    meal_name = Column(String(100), nullable=False)
+    
+    # Macros - all required for tracking
+    calories = Column(Integer, nullable=False)
+    protein_g = Column(Float, nullable=False, default=0)
+    carbs_g = Column(Float, nullable=False, default=0)
+    fat_g = Column(Float, nullable=False, default=0)
+    
+    # Optional fields
+    notes = Column(String(500), nullable=True)
+    
+    # Source tracking - helps understand user behavior
+    # 'manual': User typed everything
+    # 'ai': AI detected from image
+    # 'user_preset': User's saved template
+    # 'admin_preset': Admin suggestion used
+    source = Column(String(20), default='manual')
+    
+    # Image path (optional - for AI uploads)
+    image_url = Column(String(255), nullable=True)
+    
+    # Timestamps
+    logged_at = Column(DateTime, default=datetime.utcnow, nullable=False)  # Critical for daily reset
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    # Relationship back to user
+    user = relationship("User", backref="meals")
+
+
+# ==========================================================================
+# MODEL: USER MEAL PRESET (User's reusable templates)
+# ==========================================================================
+class UserMealPreset(Base):
+    """
+    User's meal templates - NOT logged meals, just reusable templates
+    
+    Fields:
+        preset_id: UUID primary key
+        user_id: Foreign key to users table
+        meal_name: Template name (e.g., "My Breakfast Oats")
+        calories: Template calories
+        protein_g: Template protein
+        carbs_g: Template carbs
+        fat_g: Template fat
+        notes: Optional notes
+        created_at: When template was created
+    
+    Usage Flow:
+        1. User logs a meal manually
+        2. User clicks "Save as Preset"
+        3. Template created here
+        4. Later: User clicks "Add" on preset card
+        5. Data copied to manual entry form
+        6. User logs the meal (creates new Meal record)
+    
+    Key Points:
+        - User can CRUD (create, read, update, delete)
+        - Templates persist forever (no daily reset)
+        - Each user sees only their own presets
+    """
+    __tablename__ = "user_meal_presets"
+    
+    preset_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.user_id"), nullable=False)
+    
+    # Template details
+    meal_name = Column(String(100), nullable=False)
+    
+    # Macros
+    calories = Column(Integer, nullable=False)
+    protein_g = Column(Float, nullable=False, default=0)
+    carbs_g = Column(Float, nullable=False, default=0)
+    fat_g = Column(Float, nullable=False, default=0)
+    
+    # Optional notes
+    notes = Column(String(500), nullable=True)
+    
+    # Metadata
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationship back to user
+    user = relationship("User", backref="meal_presets")
+
+
+# ==========================================================================
+# MODEL: ADMIN MEAL PRESET (Global meal suggestions)
+# ==========================================================================
+class AdminMealPreset(Base):
+    """
+    Admin meal suggestions - Global templates visible to all users
+    
+    Fields:
+        preset_id: UUID primary key
+        meal_name: Template name (e.g., "Healthy Chicken Salad")
+        calories: Template calories
+        protein_g: Template protein
+        carbs_g: Template carbs
+        fat_g: Template fat
+        notes: Optional description
+        category: Optional grouping (e.g., "high-protein", "vegan")
+        is_active: Admin can hide suggestions
+        created_at: When template was created
+    
+    Usage Flow:
+        1. Admin creates suggestion in admin panel
+        2. All users see it in "Admin Suggestions" section
+        3. User clicks "Add" on card
+        4. Data copied to manual entry form
+        5. User can edit before logging
+        6. User logs the meal (creates new Meal record)
+    
+    Key Points:
+        - Read-only for regular users
+        - Only admins can CRUD
+        - Visible to ALL users
+        - Templates persist forever
+    """
+    __tablename__ = "admin_meal_presets"
+    
+    preset_id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    
+    # Template details
+    meal_name = Column(String(100), nullable=False)
+    
+    # Macros
+    calories = Column(Integer, nullable=False)
+    protein_g = Column(Float, nullable=False, default=0)
+    carbs_g = Column(Float, nullable=False, default=0)
+    fat_g = Column(Float, nullable=False, default=0)
+    
+    # Optional fields
+    notes = Column(String(500), nullable=True)
+    category = Column(String(50), nullable=True)  # e.g., "high-protein", "vegan", "quick"
+    
+    # Status
+    is_active = Column(Boolean, default=True)  # Admin can hide without deleting
+    
+    # Metadata
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+
+# ==========================================================================
 # DATABASE UTILITY FUNCTIONS
 # ==========================================================================
 

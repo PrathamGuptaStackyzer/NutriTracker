@@ -36,6 +36,7 @@
 
 /* ============================================ */
 /* Profile Page Body */
+/* Adjusted for iframe display without navbar/sidebar */
 /* ============================================ */
 body {
     background: var(--bg-light);
@@ -43,8 +44,28 @@ body {
     overflow-x: hidden;
 }
 
+/* Profile content wrapper for iframe display */
+.profile-content-wrapper {
+    padding: 20px;
+    width: 100%;
+}
+
+/* Hide navbar and sidebar when in iframe */
+.navbar,
+.sidebar,
+.main-container {
+    display: none;
+}
+
+/* Adjust content-area for iframe */
+.content-area {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
 /* ============================================ */
-/* TOP NAVBAR */
+/* TOP NAVBAR (Hidden in iframe) */
 /* Fixed navigation bar at the top */
 /* ============================================ */
 .navbar {

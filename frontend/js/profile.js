@@ -29,18 +29,15 @@ let selectedActivity = null;
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Profile page initialized');
     
-    // Initialize dark mode theme first
-    applySavedTheme();
-    
-    // Add dark mode toggle listener
+    // Dark mode is now handled by dark-mode.js
+    // Just attach the toggle event listener
     const toggle = document.getElementById('darkModeToggle');
     if (toggle) {
-        toggle.addEventListener('change', toggleDarkMode);
+        toggle.addEventListener('change', function() {
+            // Use the shared dark mode function from dark-mode.js
+            toggleDarkMode(this.checked);
+        });
         console.log('🌙 Dark mode toggle attached');
-        // Debug: print initial computed styles
-        console.log('🌙 Theme init - body has dark-mode class?', document.body.classList.contains('dark-mode'));
-        console.log('🌙 Computed body background:', getComputedStyle(document.body).backgroundColor);
-        console.log('🌙 CSS var --bg-light:', getComputedStyle(document.body).getPropertyValue('--bg-light'));
     }
     
     // Load user profile data from backend
@@ -93,15 +90,20 @@ async function loadProfileData() {
         console.log('📡 Fetching profile data...');
         
         // Get JWT token from localStorage
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem('token');
         
         console.log('🔑 Token check:', token ? 'Token found' : 'No token');
         
         if (!token) {
-            // No token found, redirect to login
+            // No token found, notify parent dashboard to redirect
             console.error('No authentication token found');
-            if (typeof showToast === 'function') showToast('Session expired. Please login again.', 'error');
-            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+            // Send message to parent window (dashboard)
+            if (window.parent !== window) {
+                window.parent.postMessage('sessionExpired', '*');
+            } else {
+                // If not in iframe, redirect directly
+                window.location.href = 'index.html';
+            }
             return;
         }
         
@@ -111,7 +113,7 @@ async function loadProfileData() {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json' 
             }
         });
         
@@ -122,8 +124,14 @@ async function loadProfileData() {
                 // Unauthorized - token expired or invalid
                 const errorData = await response.json().catch(() => ({}));
                 console.error('❌ 401 Error:', errorData);
-                if (typeof showToast === 'function') showToast('Session expired. Please login again.', 'error');
-                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+                // Send message to parent window (dashboard)
+                if (window.parent !== window) {
+                    window.parent.postMessage('sessionExpired', '*');
+                } else {
+                    // If not in iframe, redirect directly
+                    if (typeof showToast === 'function') showToast('Session expired. Please login again.', 'error');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+                }
                 return;
             }
             throw new Error(`Failed to load profile: ${response.status}`);
@@ -288,7 +296,7 @@ async function handlePersonalFormSubmit(event) {
     
     try {
         // Get authentication token
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem('token');
         
         // Show saving state
         const submitBtn = event.target.querySelector('button[type="submit"]');
@@ -374,7 +382,7 @@ async function handleGoalsFormSubmit(event) {
     }
 
     try {
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem('token');
         
         const submitBtn = event.target.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
@@ -528,7 +536,7 @@ function enableEditMode() {
 // ============================================
 function logout() {
     // Clear authentication token
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('token');
     sessionStorage.clear();
     
     console.log('👋 Logging out...');
@@ -556,68 +564,11 @@ function showError(message) {
 }
 
 // ============================================
-// DARK MODE TOGGLE FUNCTIONALITY
+// DARK MODE - Now handled by dark-mode.js
 // ============================================
+// The dark mode functionality is now centralized in dark-mode.js
+// and shared across all pages for consistency
 
-// Apply saved theme on page load
-function applySavedTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    const toggle = document.getElementById('darkModeToggle');
-    console.log('🌙 applySavedTheme() - savedTheme =', savedTheme);
-
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if (toggle) toggle.checked = true;
-        console.log('🌙 applySavedTheme() -> applied dark-mode class');
-    } else {
-        document.body.classList.remove('dark-mode');
-        if (toggle) toggle.checked = false;
-        console.log('🌙 applySavedTheme() -> ensured light theme (removed dark-mode)');
-    }
-
-    // Debug: show computed styles and CSS variable values after applying
-    try {
-        console.log('🌙 applySavedTheme() computed background:', getComputedStyle(document.body).backgroundColor);
-        console.log('🌙 applySavedTheme() CSS var --bg-light:', getComputedStyle(document.body).getPropertyValue('--bg-light'));
-    } catch (e) {
-        console.warn('🌙 applySavedTheme() - could not read computed styles', e);
-    }
-}
-
-// Toggle theme
-function toggleDarkMode() {
-    const toggle = document.getElementById('darkModeToggle');
-    
-    if (!toggle) {
-        console.error('🌙 toggleDarkMode() - toggle element not found');
-        return;
-    }
-
-    console.log('🌙 toggleDarkMode() - before change, checked =', toggle.checked);
-
-    if (toggle.checked) {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-        console.log('🌙 toggleDarkMode() -> set dark theme');
-    } else {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-        console.log('🌙 toggleDarkMode() -> set light theme');
-    }
-
-    // Small timeout to allow CSS to apply, then log computed result
-    setTimeout(() => {
-        try {
-            console.log('🌙 toggleDarkMode() computed background:', getComputedStyle(document.body).backgroundColor);
-            console.log('🌙 toggleDarkMode() CSS var --bg-light:', getComputedStyle(document.body).getPropertyValue('--bg-light'));
-            console.log('🌙 toggleDarkMode() body.classList contains dark-mode?', document.body.classList.contains('dark-mode'));
-        } catch (e) {
-            console.warn('🌙 toggleDarkMode() - could not read computed styles', e);
-        }
-    }, 40);
-}
-
-// Note: Theme initialization moved to main DOMContentLoaded handler at top of file
 // ============================================
 // EXPORT FUNCTIONS (For Testing)
 // ============================================
